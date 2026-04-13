@@ -1,15 +1,22 @@
-import { FaGithub, FaGoogle, FaTwitch } from "react-icons/fa";
+"use client";
+
+import { FaGoogle, FaTwitch } from "react-icons/fa";
+import { GithubButton } from "./GithubButton";
 
 export const AuthButtons = () => {
   return (
     <div className="border-t border-ghost flex-1 flex flex-col gap-4 p-4">
-      <button className="bg-ghost text-text py-1 flex items-center gap-2 justify-center font-bold hover:cursor-pointer hover:underline underline-offset-2 disabled:opacity-25 disabled:pointer-events-none">
-        <FaGithub /> Join with GitHub
-      </button>
-      <button className="bg-ghost text-text py-1 flex items-center gap-2 justify-center font-bold hover:cursor-pointer hover:underline underline-offset-2 disabled:opacity-25 disabled:pointer-events-none">
+      <GithubButton />
+      <button
+        disabled
+        className="bg-ghost text-text py-1 flex items-center gap-2 justify-center font-bold hover:cursor-pointer hover:underline underline-offset-2 disabled:opacity-25 disabled:pointer-events-none"
+      >
         <FaGoogle /> Join with Google
       </button>
-      <button className="bg-ghost text-text py-1 flex items-center gap-2 justify-center font-bold hover:cursor-pointer hover:underline underline-offset-2 disabled:opacity-25 disabled:pointer-events-none">
+      <button
+        disabled
+        className="bg-ghost text-text py-1 flex items-center gap-2 justify-center font-bold hover:cursor-pointer hover:underline underline-offset-2 disabled:opacity-25 disabled:pointer-events-none"
+      >
         <FaTwitch /> Join with Twitch
       </button>
       <p className="text-xs font-semibold text-ghost italic text-center">

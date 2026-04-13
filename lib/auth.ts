@@ -18,6 +18,15 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     },
   },
-  plugins: [anonymous(), admin(), nextCookies()],
+  plugins: [
+    anonymous({
+      onLinkAccount: async ({ anonymousUser, newUser }) => {
+        console.log(anonymousUser);
+        console.log(newUser);
+      },
+    }),
+    admin(),
+    nextCookies(),
+  ],
   secret: process.env.BETTER_AUTH_SECRET!,
 });

@@ -12,7 +12,8 @@
     "lint": "eslint",
     "db:push": "npx drizzle-kit push",
     "db:gen": "npx drizzle-kit generate",
-    "db:migrate": "npx drizzle-kit migrate"
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:std": "npx drizzle-kit studio"
   },
   "dependencies": {
     "better-auth": "^1.6.2",
