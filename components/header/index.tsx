@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Heading } from "../shared/Heading";
+import { Greeting } from "./Greeting";
 
 export const Header = () => {
   return (
-    <header className="flex p-4 justify-between items-center">
+    <header className="flex h-16 px-4 justify-between items-center">
       <h1
         className={`text-ficsit-primary text-2xl font-bold leading-none w-fit`}
       >
@@ -11,7 +12,7 @@ export const Header = () => {
           <Heading />
         </Link>
       </h1>
-      <p className="text-ficsit-primary leading-none">Greetings, Pioneer-???</p>
+      <Greeting />
     </header>
   );
 };

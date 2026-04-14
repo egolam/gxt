@@ -25,19 +25,18 @@ export default function HomePage() {
             <span className="h-0 w-full bg-ficsit-secondary absolute bottom-0 group-hover:h-1 transition-[height]"></span>
           </Link>
         </div>
-        <InfoBar />
       </div>
 
-      <div className="border-t border-ghost flex items-center divide-x divide-ghost w-full">
-        <div className="flex flex-col gap-2 items-center flex-1 p-4">
+      <div className="border-t border-ghost flex items-center divide-x divide-ghost w-full h-16">
+        <div className="flex flex-col items-center flex-1">
           <h4 className="text-feature font-medium">Total Games Played</h4>
           <p className="text-ficsit-primary text-xl font-bold">4589</p>
         </div>
-        <div className="flex flex-col gap-2 items-center flex-1 p-4">
+        <div className="flex flex-col items-center flex-1">
           <h4 className="text-feature font-medium">Unique Locations</h4>
           <p className="text-ficsit-primary text-xl font-bold">2164</p>
         </div>
-        <div className="flex flex-col gap-2 items-center flex-1 p-4">
+        <div className="flex flex-col items-center flex-1">
           <h4 className="text-feature font-medium">Total Pioneers</h4>
           <p className="text-ficsit-primary text-xl font-bold">154</p>
         </div>

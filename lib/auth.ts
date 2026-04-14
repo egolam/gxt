@@ -29,4 +29,21 @@ export const auth = betterAuth({
     nextCookies(),
   ],
   secret: process.env.BETTER_AUTH_SECRET!,
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user, ctx) => {
+          const userCount =
+            await ctx?.context.internalAdapter.countTotalUsers();
+
+          return {
+            data: {
+              ...user,
+              name: `pioneer-${userCount !== undefined ? userCount + 1 : "???"}`,
+            },
+          };
+        },
+      },
+    },
+  },
 });

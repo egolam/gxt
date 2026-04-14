@@ -1,6 +1,6 @@
 export const InfoBar = () => {
   return (
-    <aside className="w-64 h-full border-l border-ghost p-4">
+    <aside className="w-64 border-l border-ghost p-4">
       <div className="flex flex-col">
         <h3 className="text-xl font-semibold text-text leading-none pb-4">
           Employee of the Planet
