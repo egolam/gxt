@@ -1,0 +1,2 @@
+CREATE TYPE "public"."camera_mode_enum" AS ENUM('firstperson', 'selfie', 'decoupled');--> statement-breakpoint
+ALTER TABLE "locations" ADD COLUMN "camere_mode" "camera_mode_enum" DEFAULT 'firstperson' NOT NULL;

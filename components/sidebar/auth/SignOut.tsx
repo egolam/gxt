@@ -2,13 +2,14 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { RiSettings4Fill } from "react-icons/ri";
 import { ImExit } from "react-icons/im";
+import { toast } from "sonner";
 
-export const SignoutButton = () => {
+export const SignOut = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignOut = async () => {
     if (isLoading) return;
-    const { data, error } = await authClient.signOut({
+    await authClient.signOut({
       fetchOptions: {
         onRequest: () => {
           setIsLoading(true);
@@ -18,6 +19,7 @@ export const SignoutButton = () => {
         },
         onError: (err) => {
           setIsLoading(false);
+          toast.error("Something went wrong");
         },
       },
     });

@@ -1,0 +1,1 @@
+ALTER TABLE "game_rounds" ADD COLUMN "is_finished" boolean DEFAULT false NOT NULL;

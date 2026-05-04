@@ -1,0 +1,112 @@
+[
+  {
+    "id": "one",
+    "x": -553,
+    "y": 2497,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "two",
+    "x": -421,
+    "y": 2262,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "three",
+    "x": 90,
+    "y": 2062,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "four",
+    "x": -19,
+    "y": 1248,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "five",
+    "x": -174,
+    "y": 893,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "six",
+    "x": -392,
+    "y": 637,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "seven",
+    "x": -167,
+    "y": -773,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "eight",
+    "x": -554,
+    "y": -1678,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "nine",
+    "x": -1267,
+    "y": -1483,
+    "zoom": 38,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  },
+  {
+    "id": "ten",
+    "x": 1273,
+    "y": -1319,
+    "zoom": 90,
+    "pov": 90,
+    "cameraMode": "firstperson",
+    "reported": 0,
+    "author": "admin",
+    "difficulty": "medium"
+  }
+]

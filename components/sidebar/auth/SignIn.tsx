@@ -1,36 +1,40 @@
 import { authClient } from "@/lib/auth-client";
 import { JSX, useState } from "react";
 import { RiSettings4Fill } from "react-icons/ri";
+import { toast } from "sonner";
 
-export const SigninButton = ({
+export const SignIn = ({
   enabled,
   value,
   display,
   icon,
+  redirect,
 }: {
   enabled: boolean;
   value: string;
   icon: JSX.Element;
   display: string;
+  redirect: string;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = async (value: string) => {
     if (isLoading) return;
-    const { data, error } = await authClient.signIn.social(
+    await authClient.signIn.social(
       {
         provider: value,
-        callbackURL: "/",
+        callbackURL: redirect,
       },
       {
+        onRequest: () => {
+          setIsLoading(true);
+        },
         onSuccess: () => {
           setIsLoading(false);
         },
         onError: (err) => {
           setIsLoading(false);
-        },
-        onRequest: () => {
-          setIsLoading(true);
+          toast.error("Something went wrong");
         },
       },
     );

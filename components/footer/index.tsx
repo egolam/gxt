@@ -14,7 +14,6 @@ export const Footer = () => {
           Disclaimer
         </Link>
       </div>
-      {/* <div className="w-full h-px bg-ghost"></div> */}
       <p className="leading-none text-xs text-center">
         © 2026 Satisguessry. All Rights Reserved.
       </p>

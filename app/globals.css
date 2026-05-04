@@ -11,7 +11,7 @@
   --subtitle: #f5f5f5;
   --ghost: #3b3c41;
   --border: #697780;
-  --card-bg: rgb(49 50 54);
+  --card-bg: #313236;
 }
 
 @theme inline {
@@ -26,4 +26,9 @@
   --color-ghost: var(--ghost);
   --color-border: var(--border);
   --color-card-bg: var(--card-bg);
+  --inset-shadow-md: inset 0px 0px 16px var(--color-secondary); 
+}
+
+.leaflet-container {
+  background-color: #4c6f77 !important;
 }

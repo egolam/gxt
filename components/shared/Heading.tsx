@@ -5,5 +5,9 @@ const turret = Monomaniac_One({
   subsets: ["latin"],
 });
 export const Heading = () => {
-  return <span className={`${turret.className} block leading-none`}>S4T1S-GU3SSR-Y</span>;
+  return (
+    <span className={`${turret.className} block leading-none text-white`}>
+      SATIS<span className="text-ficsit-primary">GUESSRY</span>
+    </span>
+  );
 };

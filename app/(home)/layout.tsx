@@ -1,6 +1,6 @@
-import { InfoBar } from "@/components/shared/InfoBar";
-import { Header } from "../../components/header";
+import { InfoBar } from "@/components/infobar";
 import { Sidebar } from "../../components/sidebar";
+import { Header } from "@/components/header";
 
 export default function HomeLayout({
   children,
@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <>
       <Header />
-      <div className="flex flex-1 border-t border-ghost">
+      <div className="flex flex-1">
         <Sidebar />
         <main className="flex-1 flex flex-col justify-between">{children}</main>
         <InfoBar />

@@ -8,6 +8,62 @@
       "when": 1776038832822,
       "tag": "0000_aberrant_black_cat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776264168856,
+      "tag": "0001_broad_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776281797856,
+      "tag": "0002_soft_doctor_faustus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1776284391236,
+      "tag": "0003_previous_eternals",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1776464249012,
+      "tag": "0004_simple_dagger",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1776468344128,
+      "tag": "0005_safe_shaman",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1777819451309,
+      "tag": "0006_nappy_wilson_fisk",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1777819519422,
+      "tag": "0007_military_the_hood",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1777819574234,
+      "tag": "0008_burly_nick_fury",
+      "breakpoints": true
     }
   ]
 }
