@@ -35,6 +35,10 @@ export const auth = betterAuth({
     admin(),
     nextCookies(),
   ],
+  trustedOrigins: [
+    'http://localhost:3000',
+    'https://satisguessry.com'
+  ],
   secret: process.env.BETTER_AUTH_SECRET!,
   session: {
     cookieCache: {
