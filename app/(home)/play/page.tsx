@@ -6,7 +6,11 @@ export default function PlayPage() {
       <h2 className="text-white text-2xl uppercase font-bold leading-none">
         Select <span className="text-ficsit-primary">Game Mode</span>
       </h2>
-      <GameModeSelection />
+      <div className="flex flex-col items-center gap-2">
+        <div className="flex">
+          <GameModeSelection />
+        </div>
+      </div>
     </section>
   );
 }

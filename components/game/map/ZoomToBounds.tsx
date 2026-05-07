@@ -1,11 +1,10 @@
-import { Phase } from "@/types/types";
 import { LatLngBoundsExpression } from "leaflet";
 import { Polyline, useMap } from "react-leaflet";
 
 interface Props {
   guessXY: { lat: number; lng: number };
   exactXY: { lat: number; lng: number };
-  phase: Phase;
+  phase: "countdown" | "guessing" | "round_end" | "game_end" | "pending";
 }
 
 export default function ZoomToBounds({ exactXY, guessXY, phase }: Props) {

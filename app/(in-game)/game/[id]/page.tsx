@@ -1,4 +1,5 @@
-import { find } from "@/actions/game/find";
+"use client";
+
 import { Finish } from "@/components/game/buttons/Finish";
 import { Guess } from "@/components/game/buttons/Guess";
 import { Next } from "@/components/game/buttons/Next";
@@ -7,27 +8,35 @@ import { LazyMap } from "@/components/game/map/LazyMap";
 import { ImageViewer } from "@/components/game/photo/ImageViewer";
 import { RoundEndBoard } from "@/components/game/roundendboard";
 import { ScoreBoard } from "@/components/game/scoreboard";
-import CountdownTimer from "@/components/game/timer/Countdown";
 import { Heading } from "@/components/shared/Heading";
-import { notFound, redirect } from "next/navigation";
+import { useGame } from "@/hooks/use-game";
+import { notFound } from "next/navigation";
+import { use } from "react";
+import { FaGear } from "react-icons/fa6";
 
-export default async function InGamePage({
+export default function InGamePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-  const res = await find(id);
+  const gameId = use(params).id;
 
-  if (!res.success) {
-    notFound();
-  }
+  const { data, error, isLoading, isValidating } = useGame(gameId);
+  if (error) return notFound();
+  if (isLoading || isValidating)
+    return (
+      <div className="w-full h-screen flex flex-col items-center justify-center">
+        <div className="flex flex-col gap-2 items-center">
+          <FaGear className="animate-spin text-text" size={24} />
+        </div>
+      </div>
+    );
 
-  const game = res.game!;
+  if (!data?.success) return notFound();
 
-  if (game.status === "finished") {
-    redirect("/profile");
-  }
+  const currentRound = data.game.gameRounds.find(
+    (round) => round.round === data.game.round,
+  )!;
 
   return (
     <div className="flex flex-col items-center gap-2 w-6xl">
@@ -35,60 +44,38 @@ export default async function InGamePage({
         <h1 className="text-2xl font-bold text-ficsit-primary flex-1">
           <Heading />
         </h1>
-        {game.mode === "countdown" && (
-          <CountdownTimer
-            duration={game.duration}
-            serverNow={Date.now()}
-            startedAt={game.gameRounds[game.round - 1].startedAt.toISOString()}
+        {data.game.phase === "round_end" ? (
+          <RoundEndBoard
+            distance={currentRound.distance}
+            score={currentRound.score}
           />
-        )}
-        {game.phase === "guessing" ? (
-          <ScoreBoard mode={game.mode} round={game.round} score={game.score} />
         ) : (
-          game.phase === "round_end" && (
-            <RoundEndBoard
-              distance={game.gameRounds[game.round - 1].distance}
-              score={game.gameRounds[game.round - 1].score}
-            />
-          )
+          <ScoreBoard
+            mode={data?.game.mode}
+            round={data?.game.round}
+            score={data?.game.score}
+          />
         )}
       </div>
       <div className="flex gap-2 w-full items-center">
         <div className="flex-1 aspect-square border border-ghost inset-shadow-md relative">
           <ImageInfo
-            author={game.gameRounds[game.round - 1].locations.author as string}
-            pov={game.gameRounds[game.round - 1].locations.pov as number}
-            zoom={game.gameRounds[game.round - 1].locations.zoom as number}
+            author={currentRound.author}
+            pov={currentRound.pov}
+            zoom={currentRound.zoom}
           />
-          <ImageViewer
-            src={game.gameRounds[game.round - 1].locationId as string}
-          />
+          <ImageViewer src={currentRound.locationId} />
         </div>
         <div className="flex-1 aspect-square flex flex-col gap-2">
           <div className="flex-1 flex inset-shadow-md">
-            <LazyMap
-              exactXY={[
-                game.gameRounds[game.round - 1].locations.x,
-                game.gameRounds[game.round - 1].locations.y,
-              ]}
-              guessXY={
-                game.phase === "guessing"
-                  ? null
-                  : [
-                      game.gameRounds[game.round - 1].guessX as number,
-                      game.gameRounds[game.round - 1].guessY as number,
-                    ]
-              }
-              phase={game.phase}
-            />
+            <LazyMap />
           </div>
-
-          {res.game?.phase === "round_end" && res.game.round === 5 ? (
-            <Finish gameId={id} />
-          ) : res.game?.phase === "round_end" ? (
-            <Next gameId={id} />
-          ) : res.game?.phase === "guessing" ? (
-            <Guess gameId={id} />
+          {data.game.phase === "round_end" && data.game.round === 5 ? (
+            <Finish gameid={gameId} />
+          ) : data.game.phase === "round_end" ? (
+            <Next gameid={gameId} />
+          ) : data.game.phase === "guessing" ? (
+            <Guess gameid={gameId} roundid={currentRound.id} />
           ) : null}
         </div>
       </div>

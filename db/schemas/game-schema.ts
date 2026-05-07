@@ -47,7 +47,7 @@ export const gameSessions = pgTable(
     duration: integer("duration").notNull().default(30),
     score: integer("score").notNull().default(0),
     streak: integer("streak").notNull().default(0),
-    startedAt: timestamp("started_at").defaultNow().notNull(),
+    startedAt: timestamp("started_at").notNull(),
     finishedAt: timestamp("finished_at"),
   },
   (table) => [
@@ -57,6 +57,7 @@ export const gameSessions = pgTable(
       sql`${table.duration} >= 1 AND ${table.duration} <= 60`,
     ),
     check("score_range", sql`${table.score} >= 0 AND ${table.score} <= 10000`),
+    check("time_sanity", sql`${table.finishedAt} > ${table.startedAt}`),
     index("user_games_idx").on(table.userId, desc(table.finishedAt)),
     index("casual_leaderboard_idx")
       .on(desc(table.score))
@@ -88,10 +89,11 @@ export const gameRounds = pgTable(
     round: integer("round").notNull().default(1),
     guessX: integer("guess_x"),
     guessY: integer("guess_y"),
-    distance: integer("distance").notNull().default(9999),
+    distance: integer("distance"),
     score: integer("score").notNull().default(0),
     isFinished: boolean("is_finished").notNull().default(false),
-    startedAt: timestamp("started_at").defaultNow().notNull(),
+    startedAt: timestamp("started_at").notNull(),
+    mustFinishedBefore: timestamp("must_finished_before"),
     guessedAt: timestamp("guessed_at"),
   },
   (table) => [

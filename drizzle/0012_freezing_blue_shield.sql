@@ -1,0 +1,1 @@
+ALTER TABLE "game_sessions" ALTER COLUMN "finished_at" DROP NOT NULL;

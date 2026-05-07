@@ -1,5 +1,5 @@
 interface Props {
-  distance: number;
+  distance: number | null;
   score: number;
 }
 
@@ -9,7 +9,11 @@ export const RoundEndBoard = ({ distance, score }: Props) => {
       <div className="flex items-center justify-center gap-2 border-r border-border pr-4">
         <h2 className="text-text font-semibold">DISTANCE:</h2>
         <p className="font-bold text-white uppercase">
-          {distance} <span className="lowercase">meters</span>
+          {!distance ? (
+            "Not guessed"
+          ) : (
+            <span className="lowercase">{distance} meters</span>
+          )}
         </p>
       </div>
       <div className="flex items-center justify-center gap-2">

@@ -1,4 +1,5 @@
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import { JSX, useState } from "react";
 import { RiSettings4Fill } from "react-icons/ri";
 import { toast } from "sonner";
@@ -17,6 +18,7 @@ export const SignIn = ({
   redirect: string;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignIn = async (value: string) => {
     if (isLoading) return;
@@ -34,6 +36,7 @@ export const SignIn = ({
         },
         onError: (err) => {
           setIsLoading(false);
+          router.push("/auth-error");
           toast.error("Something went wrong");
         },
       },

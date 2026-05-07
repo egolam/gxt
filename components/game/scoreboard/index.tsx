@@ -1,7 +1,5 @@
-import { Mode } from "@/types/types";
-
 interface Props {
-  mode: Mode;
+  mode: "casual" | "survive" | "countdown";
   round: number;
   score: number;
 }

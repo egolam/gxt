@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Countdown = () => {
   return (
     <div className="flex flex-col border-b border-ghost py-4 relative">

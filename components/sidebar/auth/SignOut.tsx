@@ -3,9 +3,11 @@ import { useState } from "react";
 import { RiSettings4Fill } from "react-icons/ri";
 import { ImExit } from "react-icons/im";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const SignOut = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSignOut = async () => {
     if (isLoading) return;
@@ -19,6 +21,7 @@ export const SignOut = () => {
         },
         onError: (err) => {
           setIsLoading(false);
+          router.push("/auth-error");
           toast.error("Something went wrong");
         },
       },

@@ -14,7 +14,6 @@ import {
   TILE_SIZE,
 } from "@/constants/map-settings";
 import { IconManager } from "./IconManager";
-import { Phase } from "@/types/types";
 import { MapEvents } from "./MapEvents";
 
 L.Icon.Default.mergeOptions({
@@ -23,13 +22,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow.src,
 });
 
-interface Props {
-  guessXY: [number, number] | null;
-  exactXY: [number, number] | null;
-  phase: Phase;
-}
-
-export default function Map({ exactXY, guessXY, phase }: Props) {
+export default function Map() {
   return (
     <MapContainer
       center={CENTER_POS}
@@ -52,9 +45,8 @@ export default function Map({ exactXY, guessXY, phase }: Props) {
         bounds={BOUNDS}
         className="bg-secondary"
       />
-      {phase === "guessing" && <MapEvents />}
-
-      <IconManager exactXY={exactXY} guessXY={guessXY} phase={phase} />
+      <MapEvents />
+      <IconManager />
     </MapContainer>
   );
 }

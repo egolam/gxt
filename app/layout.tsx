@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Rajdhani } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Providers } from "@/providers/Providers";
 
 const rajd = Rajdhani({
   weight: ["300", "400", "500", "600", "700"],
@@ -23,16 +24,19 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
       </head>
+
       <body
         className={`${rajd.className} antialiased min-h-dvh bg-secondary flex flex-col`}
       >
-        {children}
-        <Toaster
-          richColors
-          theme="dark"
-          toastOptions={{ style: { borderRadius: "0 0 0 0" } }}
-          icons={{ error: null, success: null }}
-        />
+        <Providers>
+          {children}
+          <Toaster
+            richColors
+            theme="dark"
+            toastOptions={{ style: { borderRadius: "0 0 0 0" } }}
+            icons={{ error: null, success: null }}
+          />
+        </Providers>
       </body>
     </html>
   );

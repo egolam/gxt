@@ -1,46 +1,52 @@
-import { start } from "@/actions/game/start";
-import { Duration, Mode } from "@/types/types";
+import { useSettingsStore } from "@/stores/settings";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { toast } from "sonner";
 
-export const StartButton = ({
-  gameMode,
-  duration,
-}: {
-  gameMode: Mode;
-  duration: Duration;
-}) => {
-  const [isPending, startTransition] = useTransition();
+export const StartButton = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const mode = useSettingsStore((state) => state.mode);
+  const duration = useSettingsStore((state) => state.duration);
 
-  const handleStartGame = async () => {
-    if (isPending) return;
+  const handleStart = async () => {
+    setIsLoading(true);
     try {
-      const res = await start(gameMode, duration);
+      const req = await fetch("/api/games", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: mode.value,
+          duration,
+        }),
+      });
 
-      if (!res.success) {
-        toast.error(res.message);
+      if (!req.ok) {
+        toast.error("Try again later");
+        router.replace("/");
       }
 
-      router.push(`/game/${res.data}`);
+      const res = await req.json();
+      router.push(`/game/${res.gameId}`);
     } catch (e) {
+      console.error(e);
       toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <button
-      disabled={isPending}
       onClick={() => {
-        startTransition(async () => {
-          await handleStartGame();
-        });
+        if (isLoading) return;
+        handleStart();
       }}
+      disabled={isLoading}
       className="text-2xl bg-ficsit-primary text-white font-bold w-64 h-12 flex items-center justify-center hover:cursor-pointer relative group disabled:bg-text/12.5 disabled:text-ghost disabled:pointer-events-none"
     >
-      {isPending ? <FaGear className="animate-spin" /> : <>START</>}
+      {isLoading ? <FaGear className="animate-spin" /> : "START"}
 
       <span className="h-0 w-full bg-ficsit-secondary absolute bottom-0 group-hover:h-0.75 transition-[height]"></span>
     </button>
