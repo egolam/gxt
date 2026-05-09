@@ -1,0 +1,1 @@
+ALTER TABLE "game_rounds" ALTER COLUMN "location_id" SET DATA TYPE integer;

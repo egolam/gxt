@@ -28,7 +28,7 @@ export const StartButton = () => {
       }
 
       const res = await req.json();
-      router.push(`/game/${res.gameId}`);
+      router.push(`/game/${res.gameSlug}`);
     } catch (e) {
       console.error(e);
       toast.error("Something went wrong");

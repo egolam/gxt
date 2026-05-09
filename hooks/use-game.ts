@@ -6,25 +6,29 @@ export function useGame(gameId: string) {
     success: boolean;
     message: string;
     game: {
-      mode: "casual" | "countdown" | "survive";
-      phase: "countdown" | "pending" | "guessing" | "round_end" | "game_end";
-      round: number;
       score: number;
+      mode: "casual" | "countdown" | "survive";
+      round: number;
+      phase: "countdown" | "pending" | "guessing" | "round_end" | "game_end";
       duration: number;
       gameRounds: {
-        id: string;
-        round: number;
+        distance: number | null;
         score: number;
+        round: number;
+        startedAt: Date;
+        slug: string;
         guessX: number | null;
         guessY: number | null;
-        distance: number | null;
-        locationId: string;
-        zoom: number;
-        pov: number;
-        author: string;
-        cameraMode: "firstperson" | "selfie" | "decoupled";
-        exactX: number | null;
-        exactY: number | null;
+        isFinished: boolean;
+        location: {
+          author: string;
+          pov: number;
+          zoom: number;
+          slug: string;
+          x: number;
+          y: number;
+          cameraMode: "firstperson" | "selfie" | "decoupled";
+        };
       }[];
     };
   }>(`/api/games/${gameId}`, fetcher);

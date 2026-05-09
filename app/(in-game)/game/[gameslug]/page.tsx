@@ -17,11 +17,11 @@ import { FaGear } from "react-icons/fa6";
 export default function InGamePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ gameslug: string }>;
 }) {
-  const gameId = use(params).id;
+  const gameSlug = use(params).gameslug;
 
-  const { data, error, isLoading, isValidating } = useGame(gameId);
+  const { data, error, isLoading, isValidating } = useGame(gameSlug);
   if (error) return notFound();
   if (isLoading || isValidating)
     return (
@@ -34,20 +34,17 @@ export default function InGamePage({
 
   if (!data?.success) return notFound();
 
-  const currentRound = data.game.gameRounds.find(
-    (round) => round.round === data.game.round,
-  )!;
-
   return (
     <div className="flex flex-col items-center gap-2 w-6xl">
-      <div className="flex items-center justify-between w-full gap-4">
+      <div className="flex items-center justify-between w-full gap-2">
         <h1 className="text-2xl font-bold text-ficsit-primary flex-1">
           <Heading />
         </h1>
+
         {data.game.phase === "round_end" ? (
           <RoundEndBoard
-            distance={currentRound.distance}
-            score={currentRound.score}
+            distance={data.game.gameRounds[0].distance}
+            score={data.game.gameRounds[0].score}
           />
         ) : (
           <ScoreBoard
@@ -60,22 +57,29 @@ export default function InGamePage({
       <div className="flex gap-2 w-full items-center">
         <div className="flex-1 aspect-square border border-ghost inset-shadow-md relative">
           <ImageInfo
-            author={currentRound.author}
-            pov={currentRound.pov}
-            zoom={currentRound.zoom}
+            author={data.game.gameRounds[0].location.author}
+            pov={data.game.gameRounds[0].location.pov}
+            zoom={data.game.gameRounds[0].location.zoom}
           />
-          <ImageViewer src={currentRound.locationId} />
+          <ImageViewer src={data.game.gameRounds[0].location.slug} />
         </div>
         <div className="flex-1 aspect-square flex flex-col gap-2">
           <div className="flex-1 flex inset-shadow-md">
             <LazyMap />
           </div>
           {data.game.phase === "round_end" && data.game.round === 5 ? (
-            <Finish gameid={gameId} />
+            <Finish gameid={gameSlug} />
           ) : data.game.phase === "round_end" ? (
-            <Next gameid={gameId} />
+            <Next gameid={gameSlug} />
           ) : data.game.phase === "guessing" ? (
-            <Guess gameid={gameId} roundid={currentRound.id} />
+            <Guess
+              gameid={gameSlug}
+              roundid={data.game.gameRounds[0].slug}
+              duration={data.game.duration}
+              mode={data.game.mode}
+              phase={data.game.phase}
+              startedAt={data.game.gameRounds[0].startedAt}
+            />
           ) : null}
         </div>
       </div>

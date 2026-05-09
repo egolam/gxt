@@ -9,9 +9,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ gameid: string }> },
+  { params }: { params: Promise<{ gameslug: string }> },
 ) {
-  const { gameid } = await params;
+  const { gameslug } = await params;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -28,6 +28,7 @@ export async function POST(
       const game = await tx.query.gameSessions.findFirst({
         columns: {
           id: true,
+          slug: true,
           phase: true,
           round: true,
           duration: true,
@@ -35,7 +36,7 @@ export async function POST(
         },
         where: and(
           eq(gameSessions.userId, session.user.id),
-          eq(gameSessions.id, gameid),
+          eq(gameSessions.slug, gameslug),
           eq(gameSessions.status, "playing"),
           eq(gameSessions.phase, "round_end"),
         ),
@@ -58,7 +59,7 @@ export async function POST(
             status: "finished",
             finishedAt: startedAt,
           })
-          .where(eq(gameSessions.id, game.id));
+          .where(eq(gameSessions.slug, game.slug));
       } else {
         const totalLocations = await tx.query.stats.findFirst({
           columns: { locationCount: true },
@@ -86,16 +87,16 @@ export async function POST(
           tx.rollback();
           throw new Error("location not found");
         }
-        const roundId = nanoid();
+        const roundSlug = nanoid();
         await tx
           .update(gameSessions)
           .set({
             round: game.round + 1,
             phase: "guessing",
           })
-          .where(eq(gameSessions.id, game.id));
+          .where(eq(gameSessions.slug, game.slug));
         await tx.insert(gameRounds).values({
-          id: roundId,
+          slug: roundSlug,
           gameId: game.id,
           locationId: randomLocation.id,
           startedAt: startedAt,

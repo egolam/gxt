@@ -1,37 +1,39 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { getRemainingMs } from "@/helpers/time";
+import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  startedAt: string; // ISO string
-  duration: number; // seconds
-  serverNow: number; // timestamp from server
+  startedAt: Date;
+  duration: number;
+  serverNow: number;
+  onFinish?: () => void;
 };
 
 export default function CountdownTimer({
   startedAt,
   duration,
   serverNow,
+  onFinish,
 }: Props) {
   const [mounted, setMounted] = useState(false);
   const [remainingMs, setRemainingMs] = useState(0);
 
   const offsetRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+  const finishedRef = useRef(false);
 
-  // ✅ Prevent hydration mismatch
+  // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // ✅ Calculate server-client offset ONCE
+  // Sync server/client clocks
   useEffect(() => {
-    const clientNow = Date.now();
-    offsetRef.current = serverNow - clientNow;
+    offsetRef.current = serverNow - Date.now();
   }, [serverNow]);
 
-  // ✅ Main timer loop (RAF > setInterval)
   useEffect(() => {
     if (!mounted) return;
 
@@ -48,29 +50,39 @@ export default function CountdownTimer({
 
       setRemainingMs(ms);
 
-      if (ms > 0) {
-        rafRef.current = requestAnimationFrame(tick);
+      // Fire once
+      if (ms <= 0 && !finishedRef.current) {
+        finishedRef.current = true;
+        onFinish?.();
+        return;
       }
+
+      rafRef.current = requestAnimationFrame(tick);
     }
 
     tick();
 
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [mounted, startedAt, duration]);
+  }, [mounted, startedAt, duration, onFinish]);
 
   if (!mounted) return null;
-
 
   const totalSeconds = Math.floor(remainingMs / 1000);
 
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
-  const formatted = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-
   return (
-    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>{formatted}</div>
+    <div
+      className={cn(
+        "font-bold w-16 text-white text-2xl tabular-nums  leading-none flex items-center justify-center  px-4 bg-ficsit-blue h-full",
+      )}
+    >
+      {seconds.toString().padStart(2, "0")}
+    </div>
   );
 }

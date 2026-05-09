@@ -10,11 +10,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ gameid: string; roundid: string }> },
+  { params }: { params: Promise<{ gameslug: string; roundslug: string }> },
 ) {
   const guessedAt = new Date();
 
-  const { gameid, roundid } = await params;
+  const { gameslug, roundslug } = await params;
   const body = await request.json();
 
   const parsedBody = await guessSchema.safeParseAsync(body);
@@ -39,14 +39,14 @@ export async function PATCH(
               locations: true,
             },
             where: and(
-              eq(gameRounds.id, roundid),
+              eq(gameRounds.slug, roundslug),
               eq(gameRounds.isFinished, false),
             ),
           },
         },
         where: and(
           eq(gameSessions.userId, session.user.id),
-          eq(gameSessions.id, gameid),
+          eq(gameSessions.slug, gameslug),
           eq(gameSessions.status, "playing"),
         ),
       });

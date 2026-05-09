@@ -36,7 +36,8 @@ export const gamePhaseEnum = pgEnum("game_phase_enum", [
 export const gameSessions = pgTable(
   "game_sessions",
   {
-    id: text("id").primaryKey(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    slug: text("slug").unique().notNull(),
     userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
@@ -57,7 +58,7 @@ export const gameSessions = pgTable(
       sql`${table.duration} >= 1 AND ${table.duration} <= 60`,
     ),
     check("score_range", sql`${table.score} >= 0 AND ${table.score} <= 10000`),
-    check("time_sanity", sql`${table.finishedAt} > ${table.startedAt}`),
+    check("time_sanity", sql`${table.finishedAt} >= ${table.startedAt}`),
     index("user_games_idx").on(table.userId, desc(table.finishedAt)),
     index("casual_leaderboard_idx")
       .on(desc(table.score))
@@ -79,11 +80,12 @@ export const gameSessions = pgTable(
 export const gameRounds = pgTable(
   "game_rounds",
   {
-    id: text("id").primaryKey(),
-    gameId: text("game_id")
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    slug: text("slug").unique().notNull(),
+    gameId: integer("game_id")
       .notNull()
       .references(() => gameSessions.id, { onDelete: "cascade" }),
-    locationId: text("location_id")
+    locationId: integer("location_id")
       .notNull()
       .references(() => locations.id),
     round: integer("round").notNull().default(1),
@@ -99,7 +101,7 @@ export const gameRounds = pgTable(
   (table) => [
     index("game_id_idx").on(table.gameId),
     check("round_range", sql`${table.round} >= 1 AND ${table.round} <= 5`),
-    check("time_sanity", sql`${table.guessedAt} > ${table.startedAt}`),
+    check("time_sanity", sql`${table.guessedAt} >= ${table.startedAt}`),
     check("distance", sql`${table.distance} >= 0`),
   ],
 );

@@ -20,9 +20,6 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const startedAt = new Date();
-  const mustFinishedBefore = addSeconds(startedAt, parsedBody.data.duration);
-
   let userId: string = "";
 
   const session = await auth.api.getSession({
@@ -59,13 +56,18 @@ export async function POST(request: NextRequest) {
           ),
         );
 
-      const gameId = nanoid();
+      const duration =
+        parsedBody.data.mode === "survive" ? 30 : parsedBody.data.duration;
+      const startedAt = new Date();
+      const mustFinishedBefore = addSeconds(startedAt, duration);
+
+      const gameSlug = nanoid();
       const [inserted] = await tx
         .insert(gameSessions)
         .values({
-          id: gameId,
+          slug: gameSlug,
           userId,
-          duration: parsedBody.data.duration,
+          duration,
           mode: parsedBody.data.mode,
           status: "playing",
           phase: "guessing",
@@ -100,11 +102,11 @@ export async function POST(request: NextRequest) {
         throw new Error("location not found");
       }
 
-      const roundId = nanoid();
+      const roundSlug = nanoid();
       await tx
         .insert(gameRounds)
         .values({
-          id: roundId,
+          slug: roundSlug,
           gameId: inserted.id,
           locationId: randomLocation.id,
           startedAt: startedAt,
@@ -114,7 +116,7 @@ export async function POST(request: NextRequest) {
         .returning();
 
       return {
-        gameId,
+        gameSlug,
       };
     });
 
@@ -122,7 +124,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         message: "game created successfully",
-        gameId: newGame.gameId,
+        gameSlug: newGame.gameSlug,
       },
       { status: 201 },
     );

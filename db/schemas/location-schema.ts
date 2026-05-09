@@ -23,7 +23,8 @@ export const cameraMode = pgEnum("camera_mode_enum", [
 export const locations = pgTable(
   "locations",
   {
-    id: text("id").primaryKey(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    slug: text("slug").unique().notNull(),
     x: integer("x").notNull(),
     y: integer("y").notNull(),
     zoom: integer("zoom").notNull(),
@@ -37,5 +38,5 @@ export const locations = pgTable(
       .$onUpdate(() => /* @__PURE__ */ new Date())
       .notNull(),
   },
-  (table) => [index("difficulty_idx").on(table.difficulty)],
+  (table) => [index("idx_difficulty").on(table.difficulty)],
 );

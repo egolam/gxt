@@ -7,9 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ gameid: string }> },
+  { params }: { params: Promise<{ gameslug: string }> },
 ) {
-  const { gameid } = await params;
+  const { gameslug } = await params;
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -33,18 +33,19 @@ export async function GET(
       with: {
         gameRounds: {
           columns: {
-            id: true,
+            slug: true,
             distance: true,
             score: true,
             round: true,
             guessX: true,
             guessY: true,
+            startedAt: true,
             isFinished: true,
           },
           with: {
             locations: {
               columns: {
-                id: true,
+                slug: true,
                 author: true,
                 zoom: true,
                 pov: true,
@@ -58,7 +59,7 @@ export async function GET(
       },
       where: and(
         eq(gameSessions.userId, session.user.id),
-        eq(gameSessions.id, gameid),
+        eq(gameSessions.slug, gameslug),
         eq(gameSessions.status, "playing"),
       ),
     });
@@ -70,29 +71,37 @@ export async function GET(
       );
     }
 
+    const activeRound = activeGame.gameRounds.find(
+      (round) => round.round === activeGame.round,
+    );
     const publicData = {
       mode: activeGame.mode,
       phase: activeGame.phase,
       round: activeGame.round,
       score: activeGame.score,
       duration: activeGame.duration,
-      gameRounds: activeGame.gameRounds.map((round) => {
-        return {
-          id: round.id,
-          round: round.round,
-          score: round.score,
-          guessX: round.isFinished ? round.guessX : null,
-          guessY: round.isFinished ? round.guessY : null,
-          distance: round.distance,
-          locationId: round.locations.id,
-          zoom: round.locations.zoom,
-          pov: round.locations.pov,
-          author: round.locations.author,
-          cameraMode: round.locations.cameraMode,
-          exactX: round.isFinished ? round.locations.x : null,
-          exactY: round.isFinished ? round.locations.y : null,
-        };
-      }),
+      gameRounds: [
+        {
+          slug: activeRound?.slug,
+          round: activeRound?.slug,
+          score: activeRound?.score,
+          startedAt: activeRound?.startedAt,
+          guessX: activeRound?.guessX,
+          guessY: activeRound?.guessY,
+          distance: activeRound?.distance,
+          location: {
+            slug: activeRound?.locations.slug,
+            zoom: activeRound?.locations.zoom,
+            author: activeRound?.locations.author,
+            pov: activeRound?.locations.pov,
+            cameraMode: activeRound?.locations.cameraMode,
+            x:
+              activeGame.phase !== "guessing" ? activeRound?.locations.x : null,
+            y:
+              activeGame.phase !== "guessing" ? activeRound?.locations.y : null,
+          },
+        },
+      ],
     };
 
     return NextResponse.json(
