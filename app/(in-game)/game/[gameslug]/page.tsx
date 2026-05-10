@@ -3,7 +3,6 @@
 import { Finish } from "@/components/game/buttons/Finish";
 import { Guess } from "@/components/game/buttons/Guess";
 import { Next } from "@/components/game/buttons/Next";
-import { InGameHeader } from "@/components/game/header";
 import { ImageViewer } from "@/components/game/imageviewer";
 import { LazyMap } from "@/components/game/map/LazyMap";
 import { Guessing } from "@/components/game/scoreboard/Guessing";
@@ -37,7 +36,7 @@ export default function InGamePage({
   return (
     <div className="flex flex-col items-center gap-2 w-6xl">
       <div className="flex items-center justify-between w-full gap-2">
-        <InGameHeader />
+        {/* <InGameHeader /> */}
         {data.game.phase === "guessing" && <Guessing />}
         {data.game.phase === "round_end" && <RoundEnd />}
       </div>

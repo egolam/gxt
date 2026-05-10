@@ -8,17 +8,17 @@ export const Footer = () => {
       <nav>
         <ul className="flex flex-row items-center justify-center gap-2 leading-none">
           <li>
-            <Link href="/" className="hover:underline">
+            <Link href="/how-to-play" className="hover:underline">
               How to play
             </Link>
           </li>
           <li>
-            <Link href="/" className="hover:underline">
+            <Link href="/disclaimer" className="hover:underline">
               Disclaimer
             </Link>
           </li>
           <li>
-            <Link href="/" className="hover:underline">
+            <Link href="/privacy" className="hover:underline">
               Privacy and Terms
             </Link>
           </li>

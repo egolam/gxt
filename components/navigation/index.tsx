@@ -19,7 +19,7 @@ export const Navigation = () => {
         </li>
         <li>
           <Link
-            href="/"
+            href="/leaderboard"
             className="relative flex items-center justify-center h-24 lg:h-32 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 border-b border-border group"
           >
             <FaTrophy size={20} />
@@ -30,7 +30,7 @@ export const Navigation = () => {
         </li>
         <li>
           <Link
-            href="/"
+            href="/profile"
             className="relative flex items-center justify-center h-24 lg:h-32 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 border-r border-border group"
           >
             <FaIdCard size={20} />
@@ -41,7 +41,7 @@ export const Navigation = () => {
         </li>
         <li>
           <Link
-            href="/"
+            href="/stats"
             className="relative flex items-center justify-center h-24 lg:h-32 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 border-border group"
           >
             <IoIosStats size={20} />
