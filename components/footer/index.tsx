@@ -4,8 +4,8 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
-    <footer className="text-xs flex flex-col items-center justify-center gap-1 text-feature font-medium pb-4">
-      {/* <nav>
+    <footer className="text-xs flex flex-col items-center justify-center text-feature font-medium">
+      <nav>
         <ul className="flex flex-row items-center justify-center gap-2 leading-none">
           <li>
             <Link href="/" className="hover:underline">
@@ -23,7 +23,7 @@ export const Footer = () => {
             </Link>
           </li>
         </ul>
-      </nav> */}
+      </nav>
       <nav>
         <ul className="flex">
           <li>

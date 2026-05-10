@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
         hostname: "assets.satisguessry.com",
       },
     ],
-    qualities: [75, 100],
+    qualities: [50, 75, 100],
   },
 };
 

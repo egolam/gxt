@@ -3,6 +3,7 @@ import { Rajdhani } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/providers/Providers";
+import { Background } from "@/components/background/Background";
 
 const rajd = Rajdhani({
   weight: ["300", "400", "500", "600", "700"],
@@ -26,8 +27,9 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${rajd.className} antialiased min-h-dvh bg-secondary flex justify-center`}
+        className={`${rajd.className} antialiased min-h-dvh flex justify-center md:items-center relative`}
       >
+        <Background />
         <Providers>
           {children}
           <Toaster
