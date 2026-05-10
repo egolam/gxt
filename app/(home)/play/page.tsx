@@ -1,31 +1,33 @@
-import { GameModeSelection } from "@/components/gamemode";
+"use client";
+
+import { Duration } from "@/components/play/Duration";
+import { Mode } from "@/components/play/Mode";
+import { useSettingsStore } from "@/stores/settings";
 
 export default function PlayPage() {
+  const mode = useSettingsStore((state) => state.mode);
+
   return (
-    <section className="sm:gap-8 justify-center flex-1">
-      {/* <h2 className="text-white sm:text-2xl uppercase font-bold leading-none hidden">
-        Select<span className="text-ficsit-primary">GameMode</span>
-      </h2> */}
-      <div className="flex flex-col gap-2 w-full h-full py-8">
-        <div className="bg-ghost h-full"></div>
-        <div className="grid grid-cols-2 gap-2">
-          <button className="bg-ghost text-text font-semibold h-8">
-            PREVIOUS
-          </button>
-          <button className="bg-ghost text-text font-semibold h-8">NEXT</button>
-          <button className="col-span-2 h-12 bg-ficsit-primary text-white font-bold text-2xl">
-            START
-          </button>
+    <section className="flex flex-col items-center sm:gap-8 justify-center w-full h-full">
+      <div className="flex flex-col w-full h-full md:pb-8 md:h-auto md:aspect-1/2 max-h-128 max-w-64 md:max-w-72 py-4">
+        <div className="flex-1 flex flex-col p-4 justify-between bg-feature">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center relative">
+              {/* <p className="font-medium leading-none">GAME MODE: </p> */}
+              <h2 className="font-semibold text-xl text-white leading-none mt-1">
+                {mode.display}
+              </h2>
+            </div>
+            <p className="text-text leading-none">{mode.sub}</p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            {/* <p className="leading-none text-text">{mode.desc}</p> */}
+            {mode.value === "countdown" && <Duration />}
+          </div>
         </div>
+        <Mode />
       </div>
     </section>
   );
-}
-
-{
-  /* <div className="flex flex-col items-center">
-        <div className="flex gap-2 justify-between sm:justify-normal">
-          <GameModeSelection />
-        </div>
-      </div> */
 }

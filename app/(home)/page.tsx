@@ -5,7 +5,7 @@ import { FaSignInAlt } from "react-icons/fa";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 w-full">
+    <div className="flex flex-col items-center justify-center gap-4 w-full max-w-64 md:max-w-max">
       <div className="flex flex-col items-center justify-center leading-none">
         <p className="text-feature font-medium sm:text-xl">Welcome to</p>
         <h2 className="text-[2rem] font-bold ">
@@ -21,7 +21,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/play"
-              className="size-12 sm:size-16 bg-card-bg text-white font-bold flex items-center justify-center relative group hover:text-ficsit-secondary"
+              className="size-12 sm:size-16 bg-ghost text-white font-bold flex items-center justify-center relative group hover:cursor-pointer hover:bg-feature"
             >
               <FaSignInAlt />
               <span className="absolute text-ghost sr-only">JOIN</span>
@@ -41,7 +41,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/play"
-              className="size-12 sm:size-16 bg-card-bg text-white font-bold flex items-center justify-center relative group hover:text-ficsit-secondary"
+              className="size-12 sm:size-16 bg-ghost text-white font-bold flex items-center justify-center relative group hover:cursor-pointer hover:bg-feature"
             >
               <MdLeaderboard />
               <span className="absolute text-ghost sr-only">LEADERBOARD</span>

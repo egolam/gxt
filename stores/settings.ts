@@ -17,7 +17,7 @@ const modes: IModes[] = [
     value: "casual",
     display: "CASUAL",
     sub: "Ideal for first-time pioneers.",
-    desc: "No time and guess limit in this mode. Just play and chill.",
+    desc: "No time limit in this mode. Just play and chill.",
     round: "5 rounds",
   },
   {

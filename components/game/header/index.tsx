@@ -17,7 +17,7 @@ export const InGameHeader = () => {
           data?.game.phase === "game_end" && "text-right",
         )}
       >
-        <Heading long/>
+        <Heading long={false} />
       </h1>
     </>
   );
