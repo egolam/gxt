@@ -1,6 +1,7 @@
-import { InfoBar } from "@/components/infobar";
-import { Sidebar } from "../../components/sidebar";
 import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import Link from "next/link";
+import { Navbar } from "@/components/navbar";
 
 export default function HomeLayout({
   children,
@@ -8,13 +9,13 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="flex flex-col w-full lg:w-5xl">
       <Header />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 flex flex-col justify-between">{children}</main>
-        <InfoBar />
-      </div>
-    </>
+      {/* <Navbar /> */}
+      <main className="flex flex-col justify-center px-4 flex-1">
+        {children}
+      </main>
+      <Footer />
+    </div>
   );
 }

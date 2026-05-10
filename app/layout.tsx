@@ -11,7 +11,7 @@ const rajd = Rajdhani({
 
 export const metadata: Metadata = {
   title: "Satisguessry",
-  description: "",
+  description: "The most satisfactory geography guessing game.",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${rajd.className} antialiased min-h-dvh bg-secondary flex flex-col`}
+        className={`${rajd.className} antialiased min-h-dvh bg-secondary flex justify-center`}
       >
         <Providers>
           {children}

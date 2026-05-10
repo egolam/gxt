@@ -36,14 +36,14 @@ export default function Map() {
       maxBoundsViscosity={1}
       attributionControl={false}
       zoomControl={false}
-      className="bg-text/12.5 outline-none flex-1"
+      className="bg-ghost outline-none flex-1"
     >
       <TileLayer
         url="https://assets.satisguessry.com/mapv3/{z}/{x}/{y}.webp"
         noWrap={true}
         tileSize={TILE_SIZE}
         bounds={BOUNDS}
-        className="bg-secondary"
+        className="bg-ghost"
       />
       <MapEvents />
       <IconManager />

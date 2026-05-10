@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { gameSessions } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -60,7 +60,10 @@ export async function GET(
       where: and(
         eq(gameSessions.userId, session.user.id),
         eq(gameSessions.slug, gameslug),
-        eq(gameSessions.status, "playing"),
+        or(
+          eq(gameSessions.status, "playing"),
+          eq(gameSessions.status, "finished"),
+        ),
       ),
     });
 
@@ -71,41 +74,44 @@ export async function GET(
       );
     }
 
-    const activeRound = activeGame.gameRounds.find(
-      (round) => round.round === activeGame.round,
-    );
+    const activeRound =
+      activeGame.phase !== "game_end"
+        ? [
+            activeGame.gameRounds.find(
+              (round) => round.round === activeGame.round,
+            ),
+          ]
+        : activeGame.gameRounds;
     const publicData = {
       mode: activeGame.mode,
       phase: activeGame.phase,
       round: activeGame.round,
       score: activeGame.score,
       duration: activeGame.duration,
-      gameRounds: [
-        {
-          slug: activeRound?.slug,
-          round: activeRound?.slug,
-          score: activeRound?.score,
-          startedAt: activeRound?.startedAt,
-          guessX: activeRound?.guessX,
-          guessY: activeRound?.guessY,
-          distance: activeRound?.distance,
+      gameRounds: activeRound.map((round) => {
+        return {
+          slug: round?.slug,
+          round: round?.round,
+          score: round?.score,
+          startedAt: round?.startedAt,
+          guessX: round?.guessX,
+          guessY: round?.guessY,
+          distance: round?.distance,
           location: {
-            slug: activeRound?.locations.slug,
-            zoom: activeRound?.locations.zoom,
-            author: activeRound?.locations.author,
-            pov: activeRound?.locations.pov,
-            cameraMode: activeRound?.locations.cameraMode,
-            x:
-              activeGame.phase !== "guessing" ? activeRound?.locations.x : null,
-            y:
-              activeGame.phase !== "guessing" ? activeRound?.locations.y : null,
+            slug: round?.locations.slug,
+            zoom: round?.locations.zoom,
+            author: round?.locations.author,
+            pov: round?.locations.pov,
+            cameraMode: round?.locations.cameraMode,
+            x: activeGame.phase !== "guessing" ? round?.locations.x : null,
+            y: activeGame.phase !== "guessing" ? round?.locations.y : null,
           },
-        },
-      ],
+        };
+      }),
     };
 
     return NextResponse.json(
-      { success: true, message: "Game found", game: publicData },
+      { success: true, message: "game found", game: publicData },
       { status: 200 },
     );
   } catch (e) {

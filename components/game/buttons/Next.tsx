@@ -1,18 +1,19 @@
 import { useGameStore } from "@/stores/game";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
-export const Next = ({ gameid }: { gameid: string }) => {
+export const Next = () => {
+  const { gameslug } = useParams();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const reset = useGameStore((state) => state.reset);
   const handleNext = async () => {
     setIsLoading(true);
     try {
-      const req = await fetch(`/api/games/${gameid}/rounds`, {
+      const req = await fetch(`/api/games/${gameslug}/rounds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -23,7 +24,7 @@ export const Next = ({ gameid }: { gameid: string }) => {
       const res = await req.json();
       if (res.success) {
         reset();
-        mutate(`/api/games/${gameid}`);
+        mutate(`/api/games/${gameslug}`);
       }
     } catch (e) {
       console.error(e);

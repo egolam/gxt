@@ -1,23 +1,31 @@
+import { inverse } from "@/helpers/inverse";
+import { useGame } from "@/hooks/use-game";
 import { LatLngBoundsExpression } from "leaflet";
+import { useParams } from "next/navigation";
 import { Polyline, useMap } from "react-leaflet";
 
-interface Props {
-  guessXY: { lat: number; lng: number };
-  exactXY: { lat: number; lng: number };
-  phase: "countdown" | "guessing" | "round_end" | "game_end" | "pending";
-}
-
-export default function ZoomToBounds({ exactXY, guessXY, phase }: Props) {
+export default function ZoomToBounds() {
   const map = useMap();
+  const { gameslug } = useParams();
+  const { data } = useGame(gameslug as string);
+  const guessLocation = inverse(
+    data?.game.gameRounds?.[0].guessX as number,
+    data?.game.gameRounds?.[0].guessY as number,
+  );
+
+  const exactLocation = inverse(
+    data?.game.gameRounds?.[0].location.x as number,
+    data?.game.gameRounds?.[0].location.y as number,
+  );
 
   let bounds: LatLngBoundsExpression;
 
-  if (!guessXY) {
-    bounds = [[exactXY.lat, exactXY.lng]];
+  if (!data?.game.gameRounds[0].guessX || !data?.game.gameRounds[0].guessY) {
+    bounds = [[exactLocation.lat, exactLocation.lng]];
   } else {
     bounds = [
-      [exactXY.lat, exactXY.lng],
-      [guessXY.lat, guessXY.lng],
+      [exactLocation.lat, exactLocation.lng],
+      [guessLocation.lat, guessLocation.lng],
     ];
   }
 
@@ -28,12 +36,16 @@ export default function ZoomToBounds({ exactXY, guessXY, phase }: Props) {
   });
 
   return (
-    <Polyline
-      pathOptions={{
-        color: "#fa9549",
-      }}
-      positions={bounds}
-      interactive={false}
-    />
+    <>
+      {data?.game.gameRounds[0].guessX && data?.game.gameRounds[0].guessY && (
+        <Polyline
+          pathOptions={{
+            color: "#fa9549",
+          }}
+          positions={bounds}
+          interactive={false}
+        />
+      )}
+    </>
   );
 }

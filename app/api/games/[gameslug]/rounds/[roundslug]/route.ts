@@ -61,9 +61,10 @@ export async function PATCH(
           ? null
           : activeGame.gameRounds[0].mustFinishedBefore;
 
-      const expired: boolean = !mustFinishedBefore
-        ? false
-        : guessedAt > mustFinishedBefore;
+      const expired: boolean =
+        !mustFinishedBefore || parsedBody.success
+          ? false
+          : guessedAt > mustFinishedBefore;
       const exactX = activeGame.gameRounds[0].locations.x;
       const exactY = activeGame.gameRounds[0].locations.y;
 

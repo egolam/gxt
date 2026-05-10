@@ -1,27 +1,17 @@
 import { useGameStore } from "@/stores/game";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { toast } from "sonner";
 import { mutate } from "swr";
 import CountdownTimer from "../timer/Countdown";
+import { useGame } from "@/hooks/use-game";
 
-export const Guess = ({
-  gameid,
-  roundid,
-  mode,
-  phase,
-  startedAt,
-  duration,
-}: {
-  gameid: string;
-  roundid: string;
-  mode: "survive" | "countdown" | "casual";
-  phase: "pending" | "round_end" | "guessing" | "countdown" | "game_end";
-  duration: number;
-  startedAt: Date;
-}) => {
+export const Guess = () => {
   const submittedRef = useRef(false);
+  const { gameslug } = useParams();
+  const { data } = useGame(gameslug as string);
+  const currentRound = data?.game.gameRounds[0];
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const guessXY = useGameStore((state) => state.guessXY);
@@ -31,20 +21,24 @@ export const Guess = ({
     submittedRef.current = true;
     setIsLoading(true);
     try {
-      const req = await fetch(`/api/games/${gameid}/rounds/${roundid}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          guessXY,
-        }),
-      });
+      const req = await fetch(
+        `/api/games/${gameslug}/rounds/${currentRound?.slug}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+          body: JSON.stringify({
+            guessXY,
+          }),
+        },
+      );
       if (!req.ok) {
         toast.error("Try again later");
         router.replace("/");
       }
       const res = await req.json();
       if (res.success) {
-        mutate(`/api/games/${gameid}`);
+        mutate(`/api/games/${gameslug}`);
       }
     } catch (e) {
       console.error(e);
@@ -55,11 +49,11 @@ export const Guess = ({
 
   return (
     <div className="relative flex items-center">
-      {mode !== "casual" && (
+      {data?.game.mode !== "casual" && (
         <CountdownTimer
-          duration={duration}
-          startedAt={startedAt}
+          duration={data?.game.duration as number}
           serverNow={Date.now()}
+          startedAt={currentRound?.startedAt as Date}
           onFinish={() => handleGuess()}
         />
       )}

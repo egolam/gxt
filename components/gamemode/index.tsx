@@ -15,10 +15,10 @@ export const GameModeSelection = () => {
   return (
     <>
       <ModeBackward />
-      <div className="flex flex-col gap-2 w-64 aspect-1/2">
-        <div className="bg-text/12.5 relative h-full flex-1">
+      <div className="flex flex-col gap-2 h-96 md:h-auto md:w-64 md:aspect-1/2">
+        <div className="bg-ghost relative h-full flex-1">
           <ModeInfo />
-          <div className="h-full flex flex-col justify-end p-4 text-text gap-2 select-none">
+          <div className="h-full flex flex-col justify-end sm:p-4 text-text sm:gap-2 select-none">
             <ModeDescription />
             {mode.value === "countdown" && (
               <div className="flex items-center justify-center gap-2 w-full">
