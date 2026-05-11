@@ -1,3 +1,9 @@
+import { Mode } from "@/components/play";
+
 export default function PlayPage() {
-  return <p>sa</p>;
+  return (
+    <section>
+      <Mode />
+    </section>
+  );
 }
