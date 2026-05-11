@@ -1,11 +1,14 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { FaPlay } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 
 export const Start = () => {
   const { pending } = useFormStatus();
+  const sp = useSearchParams();
+  const errorMessage = sp?.get("error");
 
   return (
     <>
@@ -23,6 +26,7 @@ export const Start = () => {
           </>
         )}
       </button>
+      {errorMessage && <p>{errorMessage}</p>}
     </>
   );
 };
