@@ -4,7 +4,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
-    <footer className="text-xs flex flex-col items-center justify-center text-feature font-medium gap-2">
+    <footer className="text-xs flex flex-col items-center justify-center text-ghost font-medium mt-auto pt-4">
       <nav>
         <ul className="flex flex-row items-center justify-center gap-2 leading-none">
           <li>
@@ -72,7 +72,7 @@ export const Footer = () => {
           </li>
         </ul>
       </nav>
-      <p className="leading-none text-xs text-center text-feature">
+      <p className="leading-none text-xs text-center text-ghost">
         © 2026 Satisguessry | Powered by robot4qbu
       </p>
     </footer>

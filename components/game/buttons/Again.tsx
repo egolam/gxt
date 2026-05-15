@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 
 export const Again = () => {
   const router = useRouter();
-
   const reset = useGameStore((state) => state.reset);
 
   return (

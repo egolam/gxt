@@ -1,5 +1,5 @@
-import { exactIcon, guessIcon } from "@/helpers/icons";
-import { inverse } from "@/helpers/inverse";
+import { exactIcon, guessIcon } from "@/helpers/game/icons";
+import { inverse } from "@/helpers/game/inverse";
 import { useGame } from "@/hooks/use-game";
 import { useGameStore } from "@/stores/game";
 import { useParams } from "next/navigation";
@@ -9,20 +9,21 @@ import ResetMapZoom from "./ResetMapZoom";
 import { HistoryMultiMarkers } from "./HistoryMultiMarkers";
 
 export const IconManager = () => {
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
+
   const guessXY = useGameStore((state) => state.guessXY);
   const guessLocation =
     data?.game.phase === "round_end"
       ? inverse(
-          data.game.gameRounds?.[0].guessX as number,
-          data.game.gameRounds?.[0].guessY as number,
+          data.game.gameRounds?.[0].gx as number,
+          data.game.gameRounds?.[0].gy as number,
         )
       : inverse(guessXY?.[0] as number, guessXY?.[1] as number);
 
   const exactLocation = inverse(
-    data?.game.gameRounds?.[0].location.x as number,
-    data?.game.gameRounds?.[0].location.y as number,
+    data?.game.gameRounds?.[0].locations.ex as number,
+    data?.game.gameRounds?.[0].locations.ey as number,
   );
 
   if (data?.game.phase === "game_end") return <HistoryMultiMarkers />;
@@ -37,7 +38,7 @@ export const IconManager = () => {
             interactive={false}
           />
           <ZoomToBounds />
-          {data.game.gameRounds[0].guessX && data.game.gameRounds[0].guessY && (
+          {data.game.gameRounds[0].gx && data.game.gameRounds[0].gy && (
             <Marker
               icon={guessIcon}
               position={[guessLocation.lat, guessLocation.lng]}
@@ -57,5 +58,3 @@ export const IconManager = () => {
     </>
   );
 };
-
-// inverse(guessXY?.[0] as number, guessXY?.[1] as number)

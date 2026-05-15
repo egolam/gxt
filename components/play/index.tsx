@@ -1,65 +1,89 @@
+"use client";
+
 import { Divider } from "../shared/Divider";
-import { createGame } from "@/actions/game/create";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { Duration, durations, gameModes } from "@/constants/game-modes";
 import { Start } from "./Start";
+import { FaChevronUp } from "react-icons/fa";
 
 export const Mode = () => {
+  const [gameMode, setGameMode] = useState(gameModes[0]);
+  const [duration, setDuration] = useState<Duration>(30);
+
+  const handleDuration = (direction: "inc" | "dec") => {
+    const currentDurationIndex = durations.indexOf(duration);
+    if (direction === "dec") {
+      if (currentDurationIndex === 0) {
+        setDuration(durations[durations.length - 1]);
+      } else {
+        setDuration(durations[currentDurationIndex - 1]);
+      }
+    } else {
+      if (currentDurationIndex === durations.length - 1) {
+        setDuration(durations[0]);
+      } else {
+        setDuration(durations[currentDurationIndex + 1]);
+      }
+    }
+  };
+
   return (
-    <form className="flex flex-col gap-4" action={createGame}>
-      <fieldset className="flex flex-col gap-4">
-        <legend className="sr-only">
-          <span>select game mode</span>
-        </legend>
-        <Divider>select game mode</Divider>
-        <div className="grid grid-rows-3 md:grid-cols-3 md:grid-rows-1 border border-border text-text">
-          <label
-            htmlFor="casual"
-            className="has-checked:bg-feature has-checked:text-white h-24 md:h-auto md:aspect-1/2 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 hover:cursor-pointer relative hover:text-white"
+    <div className="flex flex-col gap-2 md:gap-4">
+      <Divider>select game mode</Divider>
+      <ul className="grid grid-rows-3 md:grid-cols-3 md:grid-rows-1 border border-border text-text">
+        {gameModes.map((oneGameMode) => (
+          <li
+            key={oneGameMode.id}
+            role="button"
+            tabIndex={0}
+            onClick={() =>
+              setGameMode(
+                gameModes.find((mode) => mode.value === oneGameMode.value)!,
+              )
+            }
+            className={cn(
+              "flex flex-col justify-between p-2 h-24 md:h-auto md:aspect-1/2 relative bg-card-bg hover:bg-ficsit-secondary hover:text-white hover:cursor-pointer inset-shadow-sm inset-shadow-secondary/50 transition-colors duration-75",
+              oneGameMode.value === "countdown" &&
+                "md:border-x border-y md:border-y-0 border-border",
+              gameMode.value === oneGameMode.value && "bg-ficsit-secondary text-white",
+            )}
           >
-            <span className="text-sm md:text-base block absolute right-1 lg:right-2 bottom-1 lg:bottom-2 leading-none font-medium">
-              CASUAL
-            </span>
-            <input
-              type="radio"
-              id="casual"
-              name="mode"
-              className="hidden"
-              defaultChecked
-              defaultValue="casual"
-            />
-          </label>
-          <label
-            htmlFor="countdown"
-            className="has-checked:bg-feature has-checked:text-white h-24 md:h-auto md:border-x border-y md:border-y-0 border-border md:aspect-1/2 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 hover:cursor-pointer relative hover:text-white"
-          >
-            <span className="text-sm md:text-base block absolute right-1 lg:right-2 bottom-1 lg:bottom-2 leading-none font-medium">
-              COUNTDOWN
-            </span>
-            <input
-              defaultValue="countdown"
-              type="radio"
-              id="countdown"
-              name="mode"
-              className="hidden"
-            />
-          </label>
-          <label
-            htmlFor="survive"
-            className="has-checked:bg-feature has-checked:text-white h-24 md:h-auto md:aspect-1/2 bg-card-bg hover:bg-feature inset-shadow-sm inset-shadow-secondary/50 hover:cursor-pointer relative hover:text-white"
-          >
-            <span className="text-sm md:text-base block absolute right-1 lg:right-2 bottom-1 lg:bottom-2 leading-none font-medium">
-              SURVIVE
-            </span>
-            <input
-              defaultValue="survive"
-              type="radio"
-              id="survive"
-              name="mode"
-              className="hidden"
-            />
-          </label>
-        </div>
-      </fieldset>
-      <Start />
-    </form>
+            <div className="flex flex-col gap-2">
+              <h2 className="text-sm md:text-base font-medium text-center">
+                {oneGameMode.display}
+              </h2>
+              <p className="text-xs md:text-sm text-center leading-none">
+                {oneGameMode.sub}
+              </p>
+            </div>
+            {gameMode.value === "countdown" &&
+              oneGameMode.value === "countdown" && (
+                <div className="flex items-center justify-center gap-2 md:gap-0">
+                  <button
+                    className="hover:cursor-pointer size-8 flex items-center justify-center hover:text-ficsit-secondary"
+                    onClick={() => handleDuration("dec")}
+                  >
+                    <p className="sr-only">decrease duration</p>
+                    <FaChevronUp className="rotate-180" />
+                  </button>
+                  <p className="text-center font-medium md:flex-1 text-sm md:text-base ">
+                    {duration} sec
+                  </p>
+                  <button
+                    className="hover:cursor-pointer size-8 flex items-center justify-center hover:text-ficsit-secondary"
+                    onClick={() => handleDuration("inc")}
+                  >
+                    <p className="sr-only">increase duration</p>
+                    <FaChevronUp />
+                  </button>
+                </div>
+              )}
+          </li>
+        ))}
+      </ul>
+      <Divider>ready?</Divider>
+      <Start gameMode={gameMode.value} duration={duration} />
+    </div>
   );
 };

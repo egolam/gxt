@@ -1,24 +1,24 @@
-import { exactIcon, guessIcon } from "@/helpers/icons";
-import { inverse } from "@/helpers/inverse";
+import { exactIcon, guessIcon } from "@/helpers/game/icons";
+import { inverse } from "@/helpers/game/inverse";
 import { useGame } from "@/hooks/use-game";
 import { useParams } from "next/navigation";
 import { Marker, Polyline } from "react-leaflet";
 import { Fragment } from "react/jsx-runtime";
 
 export const HistoryMultiMarkers = () => {
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
 
   return data?.game.gameRounds.map((round) => {
-    const guessLocation = inverse(
-      round.guessX as number,
-      round.guessY as number,
+    const guessLocation = inverse(round.gx as number, round.gy as number);
+    const exactLocation = inverse(
+      round.locations.ex as number,
+      round.locations.ey as number,
     );
-    const exactLocation = inverse(round.location.x, round.location.y);
 
     return (
       <Fragment key={round.round}>
-        {round.guessX && round.guessY && (
+        {round.gx && round.gy && (
           <Marker
             zIndexOffset={1}
             position={[guessLocation.lat, guessLocation.lng]}
@@ -32,7 +32,7 @@ export const HistoryMultiMarkers = () => {
           icon={exactIcon}
           interactive={false}
         />
-        {round.guessX && round.guessY && (
+        {round.gx && round.gy && (
           <Polyline
             pathOptions={{ color: "#fa9549" }}
             positions={[

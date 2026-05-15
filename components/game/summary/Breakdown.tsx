@@ -2,8 +2,8 @@ import { useGame } from "@/hooks/use-game";
 import { useParams } from "next/navigation";
 
 export const Breakdown = () => {
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
   return (
     <div className="flex flex-col gap-2">
       <h2 className="text-white leading-none text-2xl font-bold">

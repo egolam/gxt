@@ -1,47 +1,43 @@
 import { useGameStore } from "@/stores/game";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { toast } from "sonner";
-import { mutate } from "swr";
 import CountdownTimer from "../timer/Countdown";
 import { useGame } from "@/hooks/use-game";
 
-export const Guess = () => {
+export const Guess = ({ gameid }: { gameid: string }) => {
   const submittedRef = useRef(false);
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { data, mutate } = useGame(gameid);
   const currentRound = data?.game.gameRounds[0];
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const guessXY = useGameStore((state) => state.guessXY);
+
   const handleGuess = async () => {
     if (submittedRef.current) return;
-
     submittedRef.current = true;
     setIsLoading(true);
     try {
-      const req = await fetch(
-        `/api/games/${gameslug}/rounds/${currentRound?.slug}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          keepalive: true,
-          body: JSON.stringify({
-            guessXY,
-          }),
-        },
-      );
-      if (!req.ok) {
-        toast.error("Try again later");
-        router.replace("/");
-      }
+      const req = await fetch(`/api/games/${gameid}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        keepalive: true,
+        body: JSON.stringify({
+          guessXY,
+        }),
+      });
       const res = await req.json();
-      if (res.success) {
-        mutate(`/api/games/${gameslug}`);
+
+      if (!res.success) {
+        router.replace("/play");
+        return toast.error(res.message);
+      } else {
+        await mutate();
       }
     } catch (e) {
-      console.error(e);
+      router.replace("/play");
+      return toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }

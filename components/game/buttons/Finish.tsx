@@ -1,34 +1,37 @@
+import { useGame } from "@/hooks/use-game";
 import { useGameStore } from "@/stores/game";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import { FaGear } from "react-icons/fa6";
 import { toast } from "sonner";
-import { mutate } from "swr";
 
-export const Finish = () => {
+export const Finish = ({ gameid }: { gameid: string }) => {
+  const finishRef = useRef(false);
   const router = useRouter();
-  const { gameslug } = useParams();
+  const { mutate } = useGame(gameid);
   const [isLoading, setIsLoading] = useState(false);
   const reset = useGameStore((state) => state.reset);
   const handleFinish = async () => {
+    if (finishRef.current) return;
+    finishRef.current = true;
     setIsLoading(true);
     try {
-      const req = await fetch(`/api/games/${gameslug}/rounds`, {
+      const req = await fetch(`/api/games/${gameid}/rounds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
-      if (!req.ok) {
-        toast.error("Try again later");
-        router.replace("/");
-      }
       const res = await req.json();
-      if (res.success) {
+
+      if (!res.success) {
+        router.replace("/play");
+        return toast.error(res.message);
+      } else {
         reset();
-        mutate(`/api/games/${gameslug}`);
+        await mutate();
       }
     } catch (e) {
-      console.error(e);
-      toast.error("Try again later");
+      router.replace("/play");
+      return toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }

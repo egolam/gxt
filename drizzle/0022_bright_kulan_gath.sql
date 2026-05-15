@@ -1,0 +1,1 @@
+ALTER TABLE "game_rounds" RENAME COLUMN "must_finished_before" TO "must_finish_before";

@@ -24,7 +24,7 @@ export const locations = pgTable(
   "locations",
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    slug: text("slug").unique().notNull(),
+    url: text("url").notNull().unique(),
     x: integer("x").notNull(),
     y: integer("y").notNull(),
     zoom: integer("zoom").notNull(),

@@ -1,6 +1,6 @@
 [
   {
-    "slug": "one",
+    "url": "one",
     "x": -553,
     "y": 2497,
     "zoom": 38,
@@ -11,7 +11,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "two",
+    "url": "two",
     "x": -421,
     "y": 2262,
     "zoom": 38,
@@ -22,7 +22,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "three",
+    "url": "three",
     "x": 90,
     "y": 2062,
     "zoom": 38,
@@ -33,7 +33,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "four",
+    "url": "four",
     "x": -19,
     "y": 1248,
     "zoom": 38,
@@ -44,7 +44,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "five",
+    "url": "five",
     "x": -174,
     "y": 893,
     "zoom": 38,
@@ -55,7 +55,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "six",
+    "url": "six",
     "x": -392,
     "y": 637,
     "zoom": 38,
@@ -66,7 +66,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "seven",
+    "url": "seven",
     "x": -167,
     "y": -773,
     "zoom": 38,
@@ -77,7 +77,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "eight",
+    "url": "eight",
     "x": -554,
     "y": -1678,
     "zoom": 38,
@@ -88,7 +88,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "nine",
+    "url": "nine",
     "x": -1267,
     "y": -1483,
     "zoom": 38,
@@ -99,7 +99,7 @@
     "difficulty": "medium"
   },
   {
-    "slug": "ten",
+    "url": "ten",
     "x": 1273,
     "y": -1319,
     "zoom": 90,

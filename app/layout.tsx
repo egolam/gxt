@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Rajdhani } from "next/font/google";
+import { Monomaniac_One, Rajdhani } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/providers/Providers";
 import { Background } from "@/components/background/Background";
+import { MdOutlineWarning } from "react-icons/md";
 
 const rajd = Rajdhani({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
+
 
 export const metadata: Metadata = {
   title: "Satisguessry",
@@ -27,7 +29,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${rajd.className} antialiased min-h-dvh flex justify-center md:items-center relative`}
+        className={`${rajd.className} antialiased min-h-dvh flex justify-center md:items-center relative select-none`}
       >
         <Background />
         <Providers>
@@ -36,7 +38,8 @@ export default function RootLayout({
             richColors
             theme="dark"
             toastOptions={{ style: { borderRadius: "0 0 0 0" } }}
-            icons={{ error: null, success: null }}
+            icons={{ error: <MdOutlineWarning size={16} />, success: null }}
+            position="top-center"
           />
         </Providers>
       </body>

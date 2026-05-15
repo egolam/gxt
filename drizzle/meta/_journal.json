@@ -113,6 +113,62 @@
       "when": 1778326565683,
       "tag": "0015_elite_centennial",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1778591113586,
+      "tag": "0016_condemned_rictor",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1778592281880,
+      "tag": "0017_slippery_meteorite",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1778606899238,
+      "tag": "0018_rich_corsair",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1778607877483,
+      "tag": "0019_tiresome_kylun",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1778626685636,
+      "tag": "0020_true_zombie",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1778627461238,
+      "tag": "0021_petite_silver_sable",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1778862598380,
+      "tag": "0022_bright_kulan_gath",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1778862845199,
+      "tag": "0023_rich_blackheart",
+      "breakpoints": true
     }
   ]
 }

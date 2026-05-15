@@ -8,6 +8,7 @@ import { LazyMap } from "@/components/game/map/LazyMap";
 import { Guessing } from "@/components/game/scoreboard/Guessing";
 import { RoundEnd } from "@/components/game/scoreboard/RoundEnd";
 import { Summary } from "@/components/game/summary";
+import { Heading } from "@/components/header/Heading";
 import { useGame } from "@/hooks/use-game";
 import { notFound } from "next/navigation";
 import { use } from "react";
@@ -16,11 +17,11 @@ import { FaGear } from "react-icons/fa6";
 export default function InGamePage({
   params,
 }: {
-  params: Promise<{ gameslug: string }>;
+  params: Promise<{ gameid: string }>;
 }) {
-  const gameSlug = use(params).gameslug;
+  const gameid = use(params).gameid;
 
-  const { data, error, isLoading, isValidating } = useGame(gameSlug);
+  const { data, error, isLoading, isValidating } = useGame(gameid);
   if (error) return notFound();
   if (isLoading || isValidating)
     return (
@@ -36,7 +37,9 @@ export default function InGamePage({
   return (
     <div className="flex flex-col items-center gap-2 w-6xl">
       <div className="flex items-center justify-between w-full gap-2">
-        {/* <InGameHeader /> */}
+        <h1 className="leading-none text-2xl font-semibold">
+          <Heading long={true} />
+        </h1>
         {data.game.phase === "guessing" && <Guessing />}
         {data.game.phase === "round_end" && <RoundEnd />}
       </div>
@@ -48,11 +51,11 @@ export default function InGamePage({
             <LazyMap />
           </div>
           {data.game.phase === "round_end" && data.game.round === 5 ? (
-            <Finish />
+            <Finish gameid={gameid} />
           ) : data.game.phase === "round_end" ? (
-            <Next />
+            <Next gameid={gameid} />
           ) : data.game.phase === "guessing" ? (
-            <Guess />
+            <Guess gameid={gameid} />
           ) : null}
         </div>
       </div>

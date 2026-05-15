@@ -1,41 +1,43 @@
 import { fetcher } from "@/helpers/fetcher";
 import useSWR from "swr";
 
-export function useGame(gameId: string) {
-  const { data, error, isLoading, isValidating } = useSWR<{
+export function useGame(gameid: string) {
+  const { data, error, isLoading, isValidating, mutate } = useSWR<{
     success: boolean;
     message: string;
     game: {
-      score: number;
+      id: number;
       mode: "casual" | "countdown" | "survive";
       round: number;
       phase: "countdown" | "pending" | "guessing" | "round_end" | "game_end";
-      duration: number;
+      score: number;
+      duration: number | null;
       gameRounds: {
-        distance: number | null;
-        score: number;
+        id: number;
         round: number;
+        score: number | null;
+        distance: number | null;
+        gx: number | null;
+        gy: number | null;
         startedAt: Date;
-        slug: string;
-        guessX: number | null;
-        guessY: number | null;
-        isFinished: boolean;
-        location: {
-          author: string;
-          pov: number;
+        mustFinishBefore: Date | null;
+        locations: {
+          id: number;
           zoom: number;
-          slug: string;
-          x: number;
-          y: number;
-          cameraMode: "firstperson" | "selfie" | "decoupled";
+          pov: number;
+          author: string;
+          ex: number | null;
+          ey: number | null;
+          url: string;
         };
       }[];
     };
-  }>(`/api/games/${gameId}`, fetcher);
+  }>(`/api/games/${gameid}`, fetcher);
   return {
     data,
     error,
     isLoading,
     isValidating,
+    mutate,
   };
 }

@@ -1,4 +1,4 @@
-import { inverse } from "@/helpers/inverse";
+import { inverse } from "@/helpers/game/inverse";
 import { useGame } from "@/hooks/use-game";
 import { LatLngBoundsExpression } from "leaflet";
 import { useParams } from "next/navigation";
@@ -6,21 +6,21 @@ import { Polyline, useMap } from "react-leaflet";
 
 export default function ZoomToBounds() {
   const map = useMap();
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
   const guessLocation = inverse(
-    data?.game.gameRounds?.[0].guessX as number,
-    data?.game.gameRounds?.[0].guessY as number,
+    data?.game.gameRounds?.[0].gx as number,
+    data?.game.gameRounds?.[0].gy as number,
   );
 
   const exactLocation = inverse(
-    data?.game.gameRounds?.[0].location.x as number,
-    data?.game.gameRounds?.[0].location.y as number,
+    data?.game.gameRounds?.[0].locations.ex as number,
+    data?.game.gameRounds?.[0].locations.ey as number,
   );
 
   let bounds: LatLngBoundsExpression;
 
-  if (!data?.game.gameRounds[0].guessX || !data?.game.gameRounds[0].guessY) {
+  if (!data?.game.gameRounds[0].gx || !data?.game.gameRounds[0].gy) {
     bounds = [[exactLocation.lat, exactLocation.lng]];
   } else {
     bounds = [
@@ -37,7 +37,7 @@ export default function ZoomToBounds() {
 
   return (
     <>
-      {data?.game.gameRounds[0].guessX && data?.game.gameRounds[0].guessY && (
+      {data?.game.gameRounds[0].gx && data?.game.gameRounds[0].gy && (
         <Polyline
           pathOptions={{
             color: "#fa9549",

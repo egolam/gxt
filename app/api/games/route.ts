@@ -1,12 +1,11 @@
 import { db } from "@/db";
-import { gameRounds, gameSessions, locations } from "@/db/schema";
-import { auth } from "@/lib/auth";
 import { createGameSchema } from "@/schemas/game/create";
-import { and, eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { nanoid } from "nanoid";
 import { addSeconds } from "@/helpers/add-seconds";
+import { signInAnonymously } from "@/helpers/auth/sign-in-anonymously";
+import { abandonActiveGames } from "@/helpers/db/abandon-active-games";
+import { selectRandomLocation } from "@/helpers/db/select-random-location";
+import { insertNewGame } from "@/helpers/db/insert-new-game";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -15,123 +14,73 @@ export async function POST(request: NextRequest) {
 
   if (!parsedBody.success) {
     return NextResponse.json(
-      { success: false, message: "invalid input" },
+      { success: false, message: "Invalid input" },
       { status: 400 },
     );
   }
 
-  let userId: string = "";
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    const anonymous = await auth.api.signInAnonymous({
-      headers: await headers(),
-    });
-
-    if (!anonymous) {
-      return NextResponse.json(
-        { success: false, message: "unauthorized access" },
-        { status: 429 },
-      );
-    }
-    userId = anonymous.user.id;
-  } else {
-    userId = session.user.id;
+  const anonymousSignIn = await signInAnonymously();
+  if (anonymousSignIn === false) {
+    return NextResponse.json(
+      { success: false, message: "Unauthorized access" },
+      { status: 401 },
+    );
   }
-
   try {
-    const newGame = await db.transaction(async (tx) => {
-      await tx
-        .update(gameSessions)
-        .set({
-          status: "abandoned",
-        })
-        .where(
-          and(
-            eq(gameSessions.userId, userId),
-            eq(gameSessions.status, "playing"),
-          ),
-        );
-
-      const duration =
-        parsedBody.data.mode === "survive" ? 30 : parsedBody.data.duration;
-      const startedAt = new Date();
-      const mustFinishedBefore = addSeconds(startedAt, duration);
-
-      const gameSlug = nanoid();
-      const [inserted] = await tx
-        .insert(gameSessions)
-        .values({
-          slug: gameSlug,
-          userId,
-          duration,
-          mode: parsedBody.data.mode,
-          status: "playing",
-          phase: "guessing",
-          startedAt,
-        })
-        .returning();
-
-      const totalLocations = await tx.query.stats.findFirst({
-        columns: { locationCount: true },
-      });
-
-      if (
-        !totalLocations?.locationCount ||
-        totalLocations?.locationCount <= 0
-      ) {
+    const startNewGame = await db.transaction(async (tx) => {
+      const abandonActiveGamesResponse = await abandonActiveGames(
+        anonymousSignIn.userId,
+        tx,
+      );
+      if (!abandonActiveGamesResponse) {
         tx.rollback();
-        throw new Error("location count not found");
+        throw new Error("Failed to abandon active games");
       }
+      const randomLocation = await selectRandomLocation(tx);
+      if (randomLocation === false) {
+        tx.rollback();
+        throw new Error("No location found");
+      }
+      const startedAt = new Date();
+      const mustFinishBefore = !parsedBody.data.duration
+        ? null
+        : addSeconds(startedAt, parsedBody.data.duration);
 
-      const randomIndex = Math.floor(
-        Math.random() * totalLocations.locationCount,
+      const insertNewGameResponse = await insertNewGame(
+        anonymousSignIn.userId,
+        parsedBody.data.gameMode,
+        parsedBody.data.duration,
+        startedAt,
+        randomLocation.locationId,
+        mustFinishBefore,
+        tx,
       );
 
-      const [randomLocation] = await tx
-        .select()
-        .from(locations)
-        .limit(1)
-        .offset(randomIndex);
-
-      if (!randomLocation) {
+      if (insertNewGameResponse === false) {
         tx.rollback();
-        throw new Error("location not found");
+        throw new Error("Failed to create game");
       }
 
-      const roundSlug = nanoid();
-      await tx
-        .insert(gameRounds)
-        .values({
-          slug: roundSlug,
-          gameId: inserted.id,
-          locationId: randomLocation.id,
-          startedAt: startedAt,
-          mustFinishedBefore:
-            parsedBody.data.mode !== "casual" ? mustFinishedBefore : null,
-        })
-        .returning();
-
-      return {
-        gameSlug,
-      };
+      return { gameid: insertNewGameResponse.gameid };
     });
-
     return NextResponse.json(
       {
         success: true,
-        message: "game created successfully",
-        gameSlug: newGame.gameSlug,
+        message: "Game created successfully",
+        gameid: startNewGame.gameid,
       },
       { status: 201 },
     );
-  } catch (e) {
-    console.error("failed to start game:", e);
+  } catch (error: any) {
+    if (error.message === "Rollback") {
+      return NextResponse.json(
+        { success: false, message: "Database error" },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json(
-      { success: false, message: "could not initialize game" },
+      { success: false, message: "Unknown error" },
       { status: 500 },
     );
   }

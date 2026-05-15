@@ -2,11 +2,11 @@ import { useGame } from "@/hooks/use-game";
 import { useParams } from "next/navigation";
 
 export const RoundEnd = () => {
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
   const currentRound = data?.game.gameRounds[0];
   return (
-    <div className="flex justify-center items-center h-fit gap-4 px-4 bg-ghost py-2 leading-none">
+    <div className="flex justify-center items-center h-fit gap-4 px-4 bg-card-bg py-2 leading-none border border-border">
       <div className="flex items-center justify-center gap-2 border-r border-border pr-4">
         {!currentRound?.distance ? (
           <p className="text-red-500 font-bold">TIME'S UP!</p>

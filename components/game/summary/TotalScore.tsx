@@ -2,8 +2,8 @@ import { useGame } from "@/hooks/use-game";
 import { useParams } from "next/navigation";
 
 export const TotalScore = () => {
-  const { gameslug } = useParams();
-  const { data } = useGame(gameslug as string);
+  const { gameid } = useParams();
+  const { data } = useGame(gameid as string);
   const width = (data?.game.score! / 10000) * 100;
 
   return (
