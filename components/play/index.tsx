@@ -43,10 +43,11 @@ export const Mode = () => {
               )
             }
             className={cn(
-              "flex flex-col justify-between p-2 h-24 md:h-auto md:aspect-1/2 relative bg-card-bg hover:bg-ficsit-secondary hover:text-white hover:cursor-pointer inset-shadow-sm inset-shadow-secondary/50 transition-colors duration-75",
+              "flex flex-col justify-between p-2 h-24 md:h-auto md:aspect-1/2 relative bg-card-bg hover:bg-ficsit-primary hover:text-white hover:cursor-pointer inset-shadow-sm inset-shadow-secondary/50 transition-colors duration-75",
               oneGameMode.value === "countdown" &&
                 "md:border-x border-y md:border-y-0 border-border",
-              gameMode.value === oneGameMode.value && "bg-ficsit-secondary text-white",
+              gameMode.value === oneGameMode.value &&
+                "bg-ficsit-primary text-white",
             )}
           >
             <div className="flex flex-col gap-2">

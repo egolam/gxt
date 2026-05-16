@@ -4,15 +4,15 @@ import { FaPlay, FaTrophy, FaIdCard } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
 
 const navigation = [
-  { id: 0, href: "/play", display: "PLAY", icon: <FaPlay size={20} /> },
+  { id: 0, href: "/play", display: "PLAY", icon: <FaPlay size={24} /> },
   {
     id: 1,
     href: "/leaderboard",
     display: "Leaderboard",
-    icon: <FaTrophy size={20} />,
+    icon: <FaTrophy size={24} />,
   },
-  { id: 2, href: "/profile", display: "Profile", icon: <FaIdCard size={20} /> },
-  { id: 3, href: "/stats", display: "Stats", icon: <IoIosStats size={20} /> },
+  { id: 2, href: "/profile", display: "Profile", icon: <FaIdCard size={24} /> },
+  { id: 3, href: "/stats", display: "Stats", icon: <IoIosStats size={24} /> },
 ];
 
 export const Navigation = () => {
@@ -24,7 +24,7 @@ export const Navigation = () => {
             <Link
               href="/play"
               className={cn(
-                "relative flex items-center justify-center h-24 lg:h-32 bg-card-bg text-text hover:text-white transition-colors duration-75 border-border inset-shadow-sm inset-shadow-secondary/50 hover:bg-ficsit-secondary",
+                "relative flex items-center justify-center h-24 lg:h-32 bg-card-bg text-text hover:text-white transition-colors duration-75 border-border inset-shadow-sm inset-shadow-secondary/50 hover:bg-ficsit-primary",
                 link.id === 0 && "border-r border-b",
                 link.id === 1 && "border-b",
                 link.id === 2 && "border-r",
