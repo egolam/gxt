@@ -7,7 +7,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="max-w-5xl w-lg bg-secondary md:min-h-184 flex flex-col md:justify-normal p-6 md:p-8 gap-2 md:gap-4 relative border-b-4 border-ficsit-primary">
+    <div className="max-w-5xl w-lg md:min-h-184 flex flex-col md:justify-normal relative bg-background overflow-hidden drop-shadow-md drop-shadow-background">
       <Header />
       {children}
       <Footer />

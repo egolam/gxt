@@ -46,14 +46,14 @@ export const Start = ({
       disabled={isLoading}
       onClick={() => handleStart()}
       type="button"
-      className="flex items-center justify-center gap-2 border-border border text-text hover:bg-feature hover:cursor-pointer hover:text-white font-medium bg-card-bg h-8 inset-shadow-sm inset-shadow-secondary/50 w-full disabled:pointer-events-none disabled:opacity-50 text-sm md:text-base"
+      className="flex items-center justify-center gap-2 hover:cursor-pointer font-medium h-8 w-full disabled:pointer-events-none disabled:opacity-50 text-sm md:text-base bg-ficsit-primary text-white transition-colors duration-75"
     >
       {isLoading ? (
         <FaGear className="animate-spin size-3" />
       ) : (
         <>
           <FaPlay className="size-3" />
-          START
+          <span className="mt-0.5">START</span>
         </>
       )}
     </button>

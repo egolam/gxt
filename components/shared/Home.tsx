@@ -8,9 +8,9 @@ export const Home = () => {
   return (
     <button
       onClick={() => router.push("/")}
-      className="size-8 text-text border border-border bg-card-bg hover:text-white flex items-center justify-center hover:cursor-pointer transition-colors duration-75 hover:bg-ficsit-secondary inset-shadow-sm inset-shadow-secondary/50"
+      className="size-8 flex items-center justify-center hover:cursor-pointer transition-all duration-75 text-white hover:text-ficsit-secondary"
     >
-      <FaHome className="mt-0.5" />
+      <FaHome size={20} />
       <p className="sr-only">back to home page</p>
     </button>
   );

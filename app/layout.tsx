@@ -11,7 +11,6 @@ const rajd = Rajdhani({
   subsets: ["latin"],
 });
 
-
 export const metadata: Metadata = {
   title: "Satisguessry",
   description: "The most satisfactory geography guessing game.",
@@ -29,7 +28,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${rajd.className} antialiased min-h-dvh flex justify-center md:items-center relative select-none`}
+        className={`${rajd.className} antialiased min-h-dvh flex justify-center md:items-center relative select-none `}
       >
         <Background />
         <Providers>

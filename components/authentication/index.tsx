@@ -9,13 +9,12 @@ const socialProviders = [
 
 export const Authentication = () => {
   return (
-    <ul className="flex flex-col border border-border">
+    <ul className="flex flex-col gap-0.5">
       {socialProviders.map((provider) => (
         <li key={provider.id}>
           <button
             className={cn(
-              "w-full flex items-center justify-center gap-2 hover:cursor-pointer font-medium h-8 text-sm transition-colors duration-75 bg-card-bg hover:bg-ficsit-secondary hover:text-white inset-shadow-sm inset-shadow-secondary/50 text-text border-border tracking-wide",
-              provider.id === 1 && "border-y",
+              "w-full flex items-center justify-center gap-2 hover:cursor-pointer font-medium h-8 text-sm transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5",
             )}
           >
             {provider.icon}

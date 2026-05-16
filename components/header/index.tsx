@@ -4,7 +4,7 @@ import { Heading } from "./Heading";
 
 export const Header = () => {
   return (
-    <header className="flex items-center justify-between">
+    <header className="flex items-center justify-between bg-ficsit-primary shadow-md shadow-black border-b-4 border-ficsit-secondary h-16 px-4">
       <h1 className="leading-none">
         <Link
           href="/"

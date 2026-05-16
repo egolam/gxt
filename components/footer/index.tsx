@@ -4,9 +4,9 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export const Footer = () => {
   return (
-    <footer className="text-xs flex flex-col items-center justify-center text-ghost font-medium mt-auto pt-4">
+    <footer className="text-xs flex flex-col items-center gap-2 justify-center text-white/20 mt-auto pb-8 tracking-normal">
       <nav>
-        <ul className="flex flex-row items-center justify-center gap-2 leading-none">
+        <ul className="flex flex-row items-center justify-center gap-4 leading-none">
           <li>
             <Link href="/how-to-play" className="hover:underline">
               How to play
@@ -29,7 +29,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-text"
+              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -40,7 +40,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-text"
+              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -51,7 +51,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-text"
+              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -62,7 +62,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-text"
+              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -72,8 +72,8 @@ export const Footer = () => {
           </li>
         </ul>
       </nav>
-      <p className="leading-none text-xs text-center text-ghost">
-        © 2026 Satisguessry | Powered by robot4qbu
+      <p className="leading-none text-xs text-center text-white/20">
+        © 2026 Satisguessry | powered by robot4qbu
       </p>
     </footer>
   );
