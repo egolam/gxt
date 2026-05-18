@@ -5,11 +5,13 @@ import { Guess } from "@/components/game/buttons/Guess";
 import { Next } from "@/components/game/buttons/Next";
 import { ImageViewer } from "@/components/game/imageviewer";
 import { LazyMap } from "@/components/game/map/LazyMap";
+import MapWrapper from "@/components/game/map/MapWrapper";
 import { Guessing } from "@/components/game/scoreboard/Guessing";
 import { RoundEnd } from "@/components/game/scoreboard/RoundEnd";
 import { Summary } from "@/components/game/summary";
 import { Heading } from "@/components/header/Heading";
 import { useGame } from "@/hooks/use-game";
+import { cn } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import { use } from "react";
 import { FaGear } from "react-icons/fa6";
@@ -27,7 +29,7 @@ export default function InGamePage({
     return (
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <div className="flex flex-col gap-2 items-center">
-          <FaGear className="animate-spin text-text" size={24} />
+          <FaGear className="animate-spin text-white/50" size={24} />
         </div>
       </div>
     );
@@ -35,20 +37,25 @@ export default function InGamePage({
   if (!data?.success) return notFound();
 
   return (
-    <div className="flex flex-col items-center gap-2 w-6xl">
-      <div className="flex items-center justify-between w-full gap-2">
-        <h1 className="leading-none text-2xl font-semibold">
+    <div className="flex flex-col items-center sm:gap-2 w-full sm:w-6xl">
+      <div
+        className={cn(
+          "flex flex-col sm:flex-row items-center justify-between w-full sm:gap-2",
+          data.game.phase === "game_end" && "justify-end",
+        )}
+      >
+        <h1 className="leading-none text-2xl font-semibold hidden sm:block">
           <Heading long={true} />
         </h1>
         {data.game.phase === "guessing" && <Guessing />}
         {data.game.phase === "round_end" && <RoundEnd />}
       </div>
-      <div className="flex gap-2 w-full items-center">
+      <div className="flex flex-col h-full sm:h-auto sm:flex-row sm:gap-2 w-full items-center">
         {data.game.phase !== "game_end" ? <ImageViewer /> : <Summary />}
 
-        <div className="flex-1 aspect-square flex flex-col gap-2">
+        <div className="flex-1 w-full aspect-square flex flex-col gap-2">
           <div className="flex-1 flex inset-shadow-md">
-            <LazyMap />
+            <MapWrapper />
           </div>
           {data.game.phase === "round_end" && data.game.round === 5 ? (
             <Finish gameid={gameid} />

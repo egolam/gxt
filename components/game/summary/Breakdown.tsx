@@ -11,16 +11,16 @@ export const Breakdown = () => {
       </h2>
       <ul className="flex flex-col gap-2">
         <li className="flex items-center">
-          <p className="text-text flex-1">Round</p>
-          <p className="text-white">Score</p>
-          <p className="flex-1 text-right text-white">Distance (meters)</p>
+          <p className="text-white/50 flex-1">Round</p>
+          <p className="text-white/50">Score</p>
+          <p className="flex-1 text-right text-white/50">Distance (meters)</p>
         </li>
         {data?.game.gameRounds.map((round) => (
           <li
             key={round.round}
-            className="flex h-12 px-4 bg-ghost items-center"
+            className="flex h-12 px-4 bg-white/5 items-center"
           >
-            <h3 className="text-text flex-1">{round.round}</h3>
+            <h3 className="text-white flex-1">{round.round}</h3>
             <p className="text-white font-bold">{round.score}</p>
             {!round.distance ? (
               <p className="text-red-500 font-bold flex-1 text-right">

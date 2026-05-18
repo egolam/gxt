@@ -4,27 +4,25 @@ import { getSessionFromRequest } from "@/helpers/auth/get-session";
 import { updateGameByGuess } from "@/helpers/db/update-game-by-guess";
 import { getDistance } from "@/helpers/game/distance";
 import { getScore } from "@/helpers/game/score";
-import { auth } from "@/lib/auth";
 import { guessSchema } from "@/schemas/game/guess";
 import { and, eq } from "drizzle-orm";
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ gameid: string }> },
 ) {
-  const { gameid } = await params;
-
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getSessionFromRequest(request);
   if (!session) {
     return NextResponse.json(
-      { success: false, message: "Unauthorized access" },
+      {
+        success: false,
+        message: "Unauthorized access",
+      },
       { status: 401 },
     );
   }
+  const { gameid } = await params;
 
   const activeGame = await db.query.gameSessions.findFirst({
     columns: {

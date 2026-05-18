@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
-import { gameSessions } from "./game-schema";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
@@ -46,7 +45,6 @@ export const accounts = pgTable(
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  gameSessions: many(gameSessions),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({

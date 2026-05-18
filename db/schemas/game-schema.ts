@@ -1,5 +1,6 @@
 import {
   boolean,
+  check,
   index,
   integer,
   pgEnum,
@@ -54,6 +55,17 @@ export const gameSessions = pgTable(
     uniqueIndex("one_active_game_per_user_idx")
       .on(table.userId)
       .where(sql`${table.status} = 'playing'`),
+    check("round_check", sql`${table.round} >= 1 AND ${table.round} <= 5`),
+    check(
+      "duration_check",
+      sql`${table.duration} >= 1 AND ${table.duration} <= 60`,
+    ),
+    check(
+      "score_check",
+      sql`${table.duration} >= 0 AND ${table.duration} <= 10000`,
+    ),
+    check("streak_check", sql`${table.duration} >= 0`),
+    check("started_at_check", sql`${table.finishedAt} >= ${table.startedAt}`),
   ],
 );
 
@@ -79,6 +91,10 @@ export const gameRounds = pgTable(
   },
   (table) => [
     index("game_rounds_game_round_idx").on(table.gameId, table.locationId),
+    check("round_check", sql`${table.round} >= 1 AND ${table.round} <= 5`),
+    check("distance_check", sql`${table.distance} >= 0`),
+    check("score_check", sql`${table.score} >= 0 AND ${table.score} <= 2000`),
+    check("guessed_at_check", sql`${table.guessedAt} >= ${table.startedAt}`),
   ],
 );
 

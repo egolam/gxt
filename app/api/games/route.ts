@@ -2,12 +2,47 @@ import { db } from "@/db";
 import { createGameSchema } from "@/schemas/game/create";
 import { NextRequest, NextResponse } from "next/server";
 import { addSeconds } from "@/helpers/add-seconds";
-import { signInAnonymously } from "@/helpers/auth/sign-in-anonymously";
 import { abandonActiveGames } from "@/helpers/db/abandon-active-games";
 import { selectRandomLocation } from "@/helpers/db/select-random-location";
 import { insertNewGame } from "@/helpers/db/insert-new-game";
+import { getSessionFromRequest } from "@/helpers/auth/get-session";
+import { isRateLimited } from "@/helpers/rate-limiter";
 
 export async function POST(request: NextRequest) {
+  const session = await getSessionFromRequest(request);
+  if (!session) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Unauthorized access",
+      },
+      { status: 401 },
+    );
+  }
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0] || "127.0.0.1";
+  const limiter = await isRateLimited(ip, "create-game", {
+    limit: 5,
+    windowSeconds: 10,
+  });
+
+  if (!limiter.success) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "You can create 2 games in a minute",
+      },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": "10",
+          "X-RateLimit-Limit": limiter.limit.toString(),
+          "X-RateLimit-Remaining": "0",
+        },
+      },
+    );
+  }
+
   const body = await request.json();
 
   const parsedBody = await createGameSchema.safeParseAsync(body);
@@ -19,17 +54,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const anonymousSignIn = await signInAnonymously();
-  if (anonymousSignIn === false) {
-    return NextResponse.json(
-      { success: false, message: "Unauthorized access" },
-      { status: 401 },
-    );
-  }
   try {
     const startNewGame = await db.transaction(async (tx) => {
       const abandonActiveGamesResponse = await abandonActiveGames(
-        anonymousSignIn.userId,
+        session.session.userId,
         tx,
       );
       if (!abandonActiveGamesResponse) {
@@ -47,7 +75,7 @@ export async function POST(request: NextRequest) {
         : addSeconds(startedAt, parsedBody.data.duration);
 
       const insertNewGameResponse = await insertNewGame(
-        anonymousSignIn.userId,
+        session.user.id,
         parsedBody.data.gameMode,
         parsedBody.data.duration,
         startedAt,

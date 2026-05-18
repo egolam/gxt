@@ -31,7 +31,7 @@ export const Mode = () => {
   return (
     <div className="flex flex-col gap-4 p-8">
       <Divider>select game mode</Divider>
-      <ul className="grid grid-rows-3 md:grid-cols-3 md:grid-rows-1 gap-0.5">
+      <ul className="grid grid-rows-3 sm:grid-cols-3 sm:grid-rows-1 gap-0.5">
         {gameModes.map((oneGameMode) => (
           <li
             key={oneGameMode.id}
@@ -43,21 +43,21 @@ export const Mode = () => {
               )
             }
             className={cn(
-              "flex flex-col justify-between p-2 h-24 md:h-64 relativehover:cursor-pointer transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5 hover:cursor-pointer",
+              "flex flex-col justify-between p-2 h-24 sm:h-64 relativehover:cursor-pointer transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5 hover:cursor-pointer",
               gameMode.value === oneGameMode.value && "bg-white/5 text-white",
             )}
           >
             <div className="flex flex-col gap-2">
-              <h2 className="text-sm md:text-base font-medium text-center">
+              <h2 className="text-sm sm:text-base font-medium text-center">
                 {oneGameMode.display}
               </h2>
-              <p className="text-xs md:text-sm text-center leading-none">
+              <p className="text-xs sm:text-sm text-center leading-none">
                 {oneGameMode.sub}
               </p>
             </div>
             {gameMode.value === "countdown" &&
               oneGameMode.value === "countdown" && (
-                <div className="flex items-center justify-center gap-2 md:gap-0">
+                <div className="flex items-center justify-center gap-2 sm:gap-0">
                   <button
                     className="hover:cursor-pointer size-8 flex items-center justify-center hover:text-ficsit-secondary"
                     onClick={() => handleDuration("dec")}
@@ -65,7 +65,7 @@ export const Mode = () => {
                     <p className="sr-only">decrease duration</p>
                     <FaChevronUp className="rotate-180" />
                   </button>
-                  <p className="text-center font-medium md:flex-1 text-sm md:text-base ">
+                  <p className="text-center font-medium sm:flex-1 text-sm sm:text-base ">
                     {duration} sec
                   </p>
                   <button
@@ -82,20 +82,28 @@ export const Mode = () => {
       </ul>
       <Divider>ready?</Divider>
       <Start gameMode={gameMode.value} duration={duration} />
-      <div className="text-xs flex *:flex-1 border border-white/20 p-1">
-        <div className="text-white/50 flex flex-col items-center justify-center">
-          <h3 className="text-center">NUMBER OF ROUNDS</h3>
-          <p className="text-white font-medium text-sm">5</p>
+      {/* <div className="text-xs sm:text-sm flex flex-col sm:flex-row *:flex-1 gap-1 sm:gap-0">
+        <div className="text-white/50 flex flex-col w-full text-center">
+          <h3 className="text-white/20">number of rounds</h3>
+          <p className="text-white font-medium">
+            {gameMode.value === "survive" ? "???" : "5"}
+          </p>
         </div>
-        <div className="text-white/50 flex flex-col items-center justify-center border-x border-white/20">
-          <h3 className="text-center">TOTAL ROUND SCORE</h3>
-          <p className="text-white font-medium text-sm">2000</p>
+
+        <div className="text-white/50 flex flex-col w-full text-center">
+          <h3 className="text-white/20">total round score</h3>
+          <p className="text-white font-medium">
+            {gameMode.value === "survive" ? "???" : "2000"}
+          </p>
         </div>
-        <div className="text-white/50 flex flex-col items-center justify-center">
-          <h3 className="text-center">TOTAL GAME SCORE</h3>
-          <p className="text-white font-medium text-sm">10000</p>
+
+        <div className="text-white/50 flex flex-col w-full text-center">
+          <h3 className="text-white/20">total game score</h3>
+          <p className="text-white font-medium">
+            {gameMode.value === "survive" ? "???" : "10000"}
+          </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

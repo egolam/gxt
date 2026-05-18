@@ -169,6 +169,13 @@
       "when": 1778862845199,
       "tag": "0023_rich_blackheart",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1779111881990,
+      "tag": "0024_free_young_avengers",
+      "breakpoints": true
     }
   ]
 }

@@ -29,7 +29,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
+              className="flex items-center justify-center size-8 hover:text-white/40 active:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -39,8 +39,8 @@ export const Footer = () => {
           </li>
           <li>
             <a
-              href=""
-              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
+              href="https://x.com/robot4qbu"
+              className="flex items-center justify-center size-8 hover:text-white/40 active:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -50,8 +50,8 @@ export const Footer = () => {
           </li>
           <li>
             <a
-              href=""
-              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
+              href="https://www.reddit.com/user/ulutengri31/"
+              className="flex items-center justify-center size-8 hover:text-white/40 active:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -62,7 +62,7 @@ export const Footer = () => {
           <li>
             <a
               href=""
-              className="flex items-center justify-center size-8 hover:text-white/40 transition-colors duration-75"
+              className="flex items-center justify-center size-8 hover:text-white/40 active:text-white/40 transition-colors duration-75"
               target="_blank"
               rel="noopener noreferrer"
             >

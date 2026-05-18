@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Monomaniac_One, Rajdhani } from "next/font/google";
+import { Rajdhani } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/providers/Providers";
@@ -14,6 +14,18 @@ const rajd = Rajdhani({
 export const metadata: Metadata = {
   title: "Satisguessry",
   description: "The most satisfactory geography guessing game.",
+  keywords: [
+    "satisfactory",
+    "pioneer",
+    "geography",
+    "steam",
+    "epic",
+    "ficsit",
+    "geoguessr",
+    "automation",
+    "factorio",
+    "guess",
+  ],
 };
 
 export default function RootLayout({
@@ -38,7 +50,7 @@ export default function RootLayout({
             theme="dark"
             toastOptions={{ style: { borderRadius: "0 0 0 0" } }}
             icons={{ error: <MdOutlineWarning size={16} />, success: null }}
-            position="top-center"
+            position="bottom-center"
           />
         </Providers>
       </body>

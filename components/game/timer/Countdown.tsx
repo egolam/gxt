@@ -78,10 +78,11 @@ export default function CountdownTimer({
   return (
     <div
       className={cn(
-        "font-bold w-16 text-white text-2xl tabular-nums  leading-none flex items-center justify-center  px-4 bg-ficsit-blue h-full",
+        "font-bold w-16 text-white text-2xl tabular-nums leading-none flex items-center justify-center bg-ficsit-secondary h-full relative",
       )}
     >
-      {seconds.toString().padStart(2, "0")}
+      <p className="">{seconds.toString().padStart(2, "0")}</p>
+     
     </div>
   );
 }

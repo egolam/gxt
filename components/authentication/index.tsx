@@ -14,7 +14,7 @@ export const Authentication = () => {
         <li key={provider.id}>
           <button
             className={cn(
-              "w-full flex items-center justify-center gap-2 hover:cursor-pointer font-medium h-8 text-sm transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5",
+              "w-full flex items-center justify-center gap-2 hover:cursor-pointer font-medium h-8 text-sm transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5 active:text-white active:bg-white/5",
             )}
           >
             {provider.icon}

@@ -12,7 +12,7 @@ export const TotalScore = () => {
         TOTAL<span className="text-ficsit-primary">SCORE</span>
       </h2>
 
-      <div className="bg-ghost h-12 w-full relative flex items-center justify-center">
+      <div className="bg-white/5 h-12 w-full relative flex items-center justify-center">
         <p className="text-white z-10">{data?.game.score}</p>
         <div
           style={{ width: `${width}%` }}

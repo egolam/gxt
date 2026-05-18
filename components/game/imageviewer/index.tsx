@@ -10,22 +10,22 @@ export const ImageViewer = () => {
   const { data } = useGame(gameid as string);
   const currentRound = data?.game.gameRounds[0];
   return (
-    <div className="flex-1 aspect-square border border-ghost inset-shadow-md relative">
-      <div className="absolute bottom-0 right-0 bg-card-bg/75 flex items-center text-xs gap-4 px-4 py-1 -z-1 leading-none">
+    <div className="sm:flex-1 w-full aspect-square sm:border border-white/20 inset-shadow-md inset-shadow-background relative">
+      <div className="absolute bottom-0 right-0 bg-background/80 flex items-center text-[0.625rem] sm:text-xs gap-4 px-4 py-1 -z-1 leading-none">
         <div className="flex items-center gap-2">
-          <h3 className="text-text font-medium">Zoom</h3>
+          <h3 className="text-white/50 font-medium">Zoom</h3>
           <p className="text-white font-semibold">
             {currentRound?.locations.zoom}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <h3 className="text-text font-medium">POV</h3>
+          <h3 className="text-white/50 font-medium">POV</h3>
           <p className="text-white font-semibold">
             {currentRound?.locations.pov}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <h3 className="text-text font-medium">Author</h3>
+          <h3 className="text-white/50 font-medium">Author</h3>
           <p className="text-white font-semibold">
             {currentRound?.locations.author}
           </p>
@@ -33,8 +33,8 @@ export const ImageViewer = () => {
       </div>
       <div className="relative w-full h-full -z-10">
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-card-bg">
-            <FaGear className="animate-spin text-text" />
+          <div className="absolute inset-0 flex items-center justify-center bg-background">
+            <FaGear className="animate-spin text-white/50" />
           </div>
         )}
         <Image

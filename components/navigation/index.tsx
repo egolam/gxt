@@ -18,21 +18,17 @@ const navigation = [
 export const Navigation = () => {
   return (
     <nav>
-      <ul className="grid md:grid-cols-4 gap-0.5">
+      <ul className="grid sm:grid-cols-4 gap-0.5">
         {navigation.map((link) => (
           <li key={link.id}>
             <Link
               href="/play"
               className={cn(
-                "relative flex items-center justify-center h-24 lg:h-64 transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5",
-                // link.id === 0 && "border-r border-b",
-                // link.id === 1 && "border-b",
-                // link.id === 2 && "border-r",
-                // link.id === 3 && "",
+                "relative flex items-center justify-center h-24 sm:h-64 transition-colors duration-75 border border-white/20 text-white/50 hover:text-white hover:bg-white/5 active:text-white active:bg-white/5",
               )}
             >
               {link.icon}
-              <span className="text-sm md:text-base block absolute right-2 bottom-2 leading-none font-semibold">
+              <span className="text-sm sm:text-base block absolute right-2 bottom-2 leading-none font-semibold">
                 {link.display}
               </span>
             </Link>

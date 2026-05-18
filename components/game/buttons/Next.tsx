@@ -41,11 +41,11 @@ export const Next = ({ gameid }: { gameid: string }) => {
     <button
       onClick={() => handleNext()}
       disabled={isLoading}
-      className="text-2xl h-12 bg-ficsit-primary text-white font-bold flex items-center justify-center relative group hover:cursor-pointer disabled:bg-text/12.5 disabled:text-ghost disabled:pointer-events-none"
+      className="text-2xl h-12 w-full bg-ficsit-primary text-white font-bold flex items-center justify-center relative group hover:cursor-pointer disabled:bg-background/50 disabled:text-white/50 disabled:pointer-events-none transition-colors duration-75"
     >
-      {isLoading ? <FaGear className="animate-spin" /> : "NEXT"}
+      {isLoading ? <FaGear className="animate-spin text-white/50" /> : "NEXT"}
 
-      <span className="h-0 w-full bg-ficsit-secondary absolute bottom-0 group-hover:h-0.75 transition-[height]"></span>
+      <span className="h-0 w-full bg-ficsit-secondary absolute bottom-0 group-hover:h-0.75 transition-[height] duration-75"></span>
     </button>
   );
 };

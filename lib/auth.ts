@@ -6,6 +6,8 @@ import { admin, anonymous } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { gameSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { redisStorage } from "@better-auth/redis-storage";
+import { redis } from "./redis";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -35,15 +37,19 @@ export const auth = betterAuth({
     admin(),
     nextCookies(),
   ],
-  trustedOrigins: [
-    'http://localhost:3000',
-    'https://satisguessry.com'
-  ],
+  trustedOrigins: ["http://localhost:3000", "https://satisguessry.com"],
   secret: process.env.BETTER_AUTH_SECRET!,
   session: {
     cookieCache: {
       enabled: true,
       maxAge: 60, // 1 minute
     },
+  },
+  secondaryStorage: redisStorage({ client: redis, keyPrefix: "better-auth:" }),
+  rateLimit: {
+    storage: "secondary-storage",
+    enabled: true,
+    window: 60,
+    max: 100,
   },
 });

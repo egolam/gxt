@@ -41,7 +41,7 @@ export const Finish = ({ gameid }: { gameid: string }) => {
     <button
       onClick={() => handleFinish()}
       disabled={isLoading}
-      className="text-2xl h-12 bg-ficsit-primary text-white font-bold flex items-center justify-center relative group hover:cursor-pointer disabled:bg-text/12.5 disabled:text-ghost disabled:pointer-events-none"
+      className="text-2xl h-12 w-full bg-ficsit-primary text-white font-bold flex items-center justify-center relative group hover:cursor-pointer disabled:bg-background/50 disabled:text-white/50 disabled:pointer-events-none transition-colors duration-75"
     >
       {isLoading ? <FaGear className="animate-spin" /> : "FINISH"}
 
